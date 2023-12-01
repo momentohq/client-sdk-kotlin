@@ -2,6 +2,7 @@ package software.momento.kotlin.sdk.responses.cache.control
 
 import software.momento.kotlin.sdk.exceptions.SdkException
 
+/** Response for a create cache operation  */
 public interface CacheCreateResponse {
 
     /** A successful create cache operation.  */
