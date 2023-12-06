@@ -7,6 +7,7 @@ plugins {
 repositories {
     mavenCentral()
     google()
+    maven("https://s01.oss.sonatype.org/content/repositories/snapshots/")
 }
 
 android {
@@ -28,9 +29,14 @@ kotlin {
             dependencies {
                 implementation(kotlin("stdlib"))
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.1")
-                implementation("io.grpc:grpc-kotlin-stub:1.4.1") // Adjust version as needed
-                implementation("io.grpc:grpc-protobuf:1.59.1") // Adjust version as needed
-                implementation("io.grpc:grpc-stub:1.59.1") // Adjust version as needed
+                implementation("software.momento.kotlin:client-protos-jvm:0.1.0-SNAPSHOT")
+                implementation("com.google.code.gson:gson:2.10.1")
+                implementation("io.grpc:grpc-kotlin-stub:1.4.1")
+                implementation("io.grpc:grpc-api:1.59.1")
+                implementation("io.grpc:grpc-context:1.59.1")
+                implementation("io.grpc:grpc-protobuf:1.59.1")
+                implementation("io.grpc:grpc-netty-shaded:1.59.1")
+                implementation("io.grpc:grpc-stub:1.59.1")
             }
         }
         val commonTest by getting {
