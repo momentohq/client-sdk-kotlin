@@ -1,6 +1,5 @@
 package software.momento.kotlin.sdk.internal.utils
 
-import software.momento.kotlin.sdk.exceptions.InvalidArgumentException
 import kotlin.time.Duration
 
 /**
@@ -8,18 +7,12 @@ import kotlin.time.Duration
  * some that cannot be delegated and instead fail in grpc client, like providing a negative ttl.
  */
 public object ValidationUtils {
-    private const val REQUEST_DEADLINE_MUST_BE_POSITIVE = "Request deadline must be positive"
     private const val CACHE_ITEM_TTL_MUST_BE_POSITIVE = "Cache item TTL must be positive"
     private const val CACHE_NAME_IS_REQUIRED = "Non-empty cache name is required"
-
-    /**
-     * Throws an [InvalidArgumentException] if the deadline is null or not positive.
-     *
-     * @param deadline The deadline to validate.
-     */
-    internal fun requireValidDeadline(deadline: Duration) {
-        require(deadline.isPositive()) { REQUEST_DEADLINE_MUST_BE_POSITIVE }
-    }
+    private const val LIST_NAME_IS_REQUIRED = "List name is required and cannot be null"
+    private const val TRUNCATE_TO_SIZE_MUST_BE_POSITIVE = "Truncate to size must be positive"
+    private const val A_NON_NULL_VALUE_IS_REQUIRED = "A non-null value is required"
+    private const val INDEX_RANGE_INVALID = "End index must be greater than start index"
 
     internal fun requireValidCacheName(cacheName: String) {
         require(cacheName.isNotBlank()) { CACHE_NAME_IS_REQUIRED }
@@ -27,5 +20,23 @@ public object ValidationUtils {
 
     internal fun requireValidTtl(ttl: Duration) {
         require(ttl.isPositive()) { CACHE_ITEM_TTL_MUST_BE_POSITIVE }
+    }
+
+    internal fun requireValidTruncateToSize(truncateToSize: Int?) {
+        require(truncateToSize == null || truncateToSize > 0) { TRUNCATE_TO_SIZE_MUST_BE_POSITIVE }
+    }
+
+    internal fun requireValidListName(listName: String?) {
+        require(!listName.isNullOrBlank()) { LIST_NAME_IS_REQUIRED }
+    }
+
+    internal fun requireValidValue(value: Any?) {
+        require(value != null) { A_NON_NULL_VALUE_IS_REQUIRED }
+    }
+
+    internal fun requireIndexRangeValid(startIndex: Int?, endIndex: Int?) {
+        if (startIndex == null || endIndex == null) return
+
+        require(endIndex > startIndex) { INDEX_RANGE_INVALID }
     }
 }
