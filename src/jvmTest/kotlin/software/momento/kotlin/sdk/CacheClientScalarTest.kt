@@ -6,6 +6,7 @@ import software.momento.kotlin.sdk.responses.cache.DeleteResponse
 import software.momento.kotlin.sdk.responses.cache.GetResponse
 import software.momento.kotlin.sdk.responses.cache.SetResponse
 import kotlin.test.Test
+import kotlin.test.assertTrue
 
 class CacheClientScalarTest: BaseJvmTestClass() {
 
@@ -33,7 +34,7 @@ class CacheClientScalarTest: BaseJvmTestClass() {
         val value = "cache-value"
 
         var getResponse = cacheClient.get(cacheName, key)
-        assert(getResponse is GetResponse.Miss)
+        assertTrue(getResponse is GetResponse.Miss, "Expected Miss, response is $getResponse")
 
         val setResponse = cacheClient.set(cacheName, key, value)
         assert(setResponse is SetResponse.Success)
