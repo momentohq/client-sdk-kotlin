@@ -33,7 +33,6 @@ jobs:
         id: release
         with:
           token: ${{ secrets.MOMENTO_MACHINE_USER_GITHUB_TOKEN }}
-          path: src
           release-type: java
           package-name: client-sdk-kotlin
           changelog-types: '[{"type":"feat","section":"Features","hidden":false},{"type":"fix","section":"Bug Fixes","hidden":false},{"type":"chore","section":"Miscellaneous","hidden":false}]'
