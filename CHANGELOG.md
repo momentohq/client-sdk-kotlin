@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.1.1](https://github.com/momentohq/client-sdk-kotlin/compare/v0.1.0...v0.1.1) (2024-01-12)
+
+
+### Bug Fixes
+
+* force signing to occur before publishing ([cac6632](https://github.com/momentohq/client-sdk-kotlin/commit/cac6632dbdb1cb46f61319f840fceea038256e8a))
+
+
+### Miscellaneous
+
+* **main:** release 0.1.1-SNAPSHOT ([ffd8a59](https://github.com/momentohq/client-sdk-kotlin/commit/ffd8a59ded63fa690504ecd797414708493aebc9))
+
 ## 0.1.0 (2024-01-12)
 
 
