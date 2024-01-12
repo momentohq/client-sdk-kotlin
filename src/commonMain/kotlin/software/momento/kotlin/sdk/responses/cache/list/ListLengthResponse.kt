@@ -6,7 +6,7 @@ import software.momento.kotlin.sdk.exceptions.SdkException
 public sealed interface ListLengthResponse {
 
     /** A successful list length operation containing the length of the list */
-    public data class Hit(public val listLength: Int) : ListLengthResponse
+    public data class Hit(val listLength: Int) : ListLengthResponse
 
     /** A successful list length operation that did not find elements. */
     public object Miss : ListLengthResponse

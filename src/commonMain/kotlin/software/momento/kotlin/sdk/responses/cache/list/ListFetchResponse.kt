@@ -6,13 +6,12 @@ import software.momento.kotlin.sdk.exceptions.SdkException
 public sealed interface ListFetchResponse {
 
     /** A successful list fetch operation that found elements. */
-    public data class Hit(private val byteArrayValues: List<ByteArray>) : ListFetchResponse {
-
-        /** Retrieves the values as a list of byte arrays. */
-        public fun valueListByteArray(): List<ByteArray> = byteArrayValues
+    public data class Hit(val valueListByteArray: List<ByteArray>) : ListFetchResponse {
 
         /** Retrieves the values as a list of strings. */
-        public fun valueListString(): List<String> = byteArrayValues.map { String(it) }
+        val valueListString: List<String> by lazy {
+            valueListByteArray.map { String(it) }
+        }
     }
 
     /** A successful list fetch operation that did not find elements. */

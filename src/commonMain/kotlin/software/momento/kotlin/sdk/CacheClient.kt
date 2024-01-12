@@ -249,7 +249,7 @@ public class CacheClient(
      * @param listName The name of the list to fetch from.
      * @param startIndex The starting index of the range (inclusive).
      * @param endIndex The ending index of the range (exclusive).
-     * @return The result of the list fetch operation: [ListFetchResponse.Hit] or [ListFetchResponse.Miss].
+     * @return The result of the list fetch operation: [ListFetchResponse.Hit] or [ListFetchResponse.Miss] or [ListFetchResponse.Error].
      */
     public suspend fun listFetch(cacheName: String, listName: String, startIndex: Int? = null, endIndex: Int? = null): ListFetchResponse {
         return dataClient.listFetch(cacheName, listName, startIndex, endIndex)
@@ -260,7 +260,7 @@ public class CacheClient(
      *
      * @param cacheName The name of the cache containing the list.
      * @param listName The name of the list to measure.
-     * @return The result of the list length operation: [ListLengthResponse.Success] or [ListLengthResponse.Error].
+     * @return The result of the list length operation: [ListLengthResponse.Hit] or [ListLengthResponse.Miss] or [ListLengthResponse.Error].
      */
     public suspend fun listLength(cacheName: String, listName: String): ListLengthResponse {
         return dataClient.listLength(cacheName, listName)

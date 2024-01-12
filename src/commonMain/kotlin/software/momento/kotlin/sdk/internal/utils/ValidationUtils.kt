@@ -26,14 +26,6 @@ public object ValidationUtils {
         require(truncateToSize == null || truncateToSize > 0) { TRUNCATE_TO_SIZE_MUST_BE_POSITIVE }
     }
 
-    internal fun requireValidListName(listName: String?) {
-        require(!listName.isNullOrBlank()) { LIST_NAME_IS_REQUIRED }
-    }
-
-    internal fun requireValidValue(value: Any?) {
-        require(value != null) { A_NON_NULL_VALUE_IS_REQUIRED }
-    }
-
     internal fun requireIndexRangeValid(startIndex: Int?, endIndex: Int?) {
         if (startIndex == null || endIndex == null) return
 

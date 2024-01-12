@@ -186,9 +186,8 @@ internal actual class InternalDataClient actual constructor(
     ): ListConcatenateBackResponse {
         return runCatching {
             ValidationUtils.requireValidCacheName(cacheName)
-            ValidationUtils.requireValidListName(listName)
-            ValidationUtils.requireValidValue(values)
             ValidationUtils.requireValidTruncateToSize(truncateFrontToSize)
+
             val effectiveTtl = ttl ?: CollectionTtl.of(itemDefaultTtl)
 
             sendListConcatenateBack(cacheName, listName.toByteString(), values.map { it.toByteString() }, truncateFrontToSize, effectiveTtl)
@@ -209,8 +208,6 @@ internal actual class InternalDataClient actual constructor(
     ): ListConcatenateBackResponse {
         return runCatching {
             ValidationUtils.requireValidCacheName(cacheName)
-            ValidationUtils.requireValidListName(listName)
-            ValidationUtils.requireValidValue(values)
             ValidationUtils.requireValidTruncateToSize(truncateFrontToSize)
             val effectiveTtl = ttl ?: CollectionTtl.of(itemDefaultTtl)
 
@@ -261,8 +258,6 @@ internal actual class InternalDataClient actual constructor(
     ): ListConcatenateFrontResponse {
         return runCatching {
             ValidationUtils.requireValidCacheName(cacheName)
-            ValidationUtils.requireValidListName(listName)
-            ValidationUtils.requireValidValue(values)
             ValidationUtils.requireValidTruncateToSize(truncateBackToSize)
             val effectiveTtl = ttl ?: CollectionTtl.of(itemDefaultTtl)
 
@@ -284,8 +279,6 @@ internal actual class InternalDataClient actual constructor(
     ): ListConcatenateFrontResponse {
         return runCatching {
             ValidationUtils.requireValidCacheName(cacheName)
-            ValidationUtils.requireValidListName(listName)
-            ValidationUtils.requireValidValue(values)
             ValidationUtils.requireValidTruncateToSize(truncateBackToSize)
             val effectiveTtl = ttl ?: CollectionTtl.of(itemDefaultTtl)
 
@@ -335,7 +328,6 @@ internal actual class InternalDataClient actual constructor(
     ): ListFetchResponse {
         return runCatching {
             ValidationUtils.requireValidCacheName(cacheName)
-            ValidationUtils.requireValidListName(listName)
             ValidationUtils.requireIndexRangeValid(startIndex, endIndex)
             sendListFetch(cacheName, listName.toByteString(), startIndex, endIndex)
         }.fold(
@@ -380,7 +372,6 @@ internal actual class InternalDataClient actual constructor(
     ): ListLengthResponse {
         return runCatching {
             ValidationUtils.requireValidCacheName(cacheName)
-            ValidationUtils.requireValidListName(listName)
             sendListLength(cacheName, listName.toByteString())
         }.fold(
             onSuccess = { it },
@@ -423,8 +414,6 @@ internal actual class InternalDataClient actual constructor(
     ): ListPushFrontResponse {
         return runCatching {
             ValidationUtils.requireValidCacheName(cacheName)
-            ValidationUtils.requireValidListName(listName)
-            ValidationUtils.requireValidValue(value)
             ValidationUtils.requireValidTruncateToSize(truncateBackToSize)
             val effectiveTtl = ttl ?: CollectionTtl.of(itemDefaultTtl)
 
@@ -446,8 +435,6 @@ internal actual class InternalDataClient actual constructor(
     ): ListPushFrontResponse {
         return runCatching {
             ValidationUtils.requireValidCacheName(cacheName)
-            ValidationUtils.requireValidListName(listName)
-            ValidationUtils.requireValidValue(value)
             ValidationUtils.requireValidTruncateToSize(truncateBackToSize)
             val effectiveTtl = ttl ?: CollectionTtl.of(itemDefaultTtl)
 
@@ -498,8 +485,6 @@ internal actual class InternalDataClient actual constructor(
     ): ListPushBackResponse {
         return runCatching {
             ValidationUtils.requireValidCacheName(cacheName)
-            ValidationUtils.requireValidListName(listName)
-            ValidationUtils.requireValidValue(value)
             ValidationUtils.requireValidTruncateToSize(truncateFrontToSize)
             val effectiveTtl = ttl ?: CollectionTtl.of(itemDefaultTtl)
 
@@ -521,8 +506,6 @@ internal actual class InternalDataClient actual constructor(
     ): ListPushBackResponse {
         return runCatching {
             ValidationUtils.requireValidCacheName(cacheName)
-            ValidationUtils.requireValidListName(listName)
-            ValidationUtils.requireValidValue(value)
             ValidationUtils.requireValidTruncateToSize(truncateFrontToSize)
             val effectiveTtl = ttl ?: CollectionTtl.of(itemDefaultTtl)
 
@@ -570,7 +553,6 @@ internal actual class InternalDataClient actual constructor(
     ): ListPopBackResponse {
         return runCatching {
             ValidationUtils.requireValidCacheName(cacheName)
-            ValidationUtils.requireValidListName(listName)
 
             sendListPopBack(cacheName, listName.toByteString())
         }.fold(
@@ -611,7 +593,6 @@ internal actual class InternalDataClient actual constructor(
     ): ListPopFrontResponse {
         return runCatching {
             ValidationUtils.requireValidCacheName(cacheName)
-            ValidationUtils.requireValidListName(listName)
 
             sendListPopFront(cacheName, listName.toByteString())
         }.fold(
@@ -653,8 +634,6 @@ internal actual class InternalDataClient actual constructor(
     ): ListRemoveValueResponse {
         return runCatching {
             ValidationUtils.requireValidCacheName(cacheName)
-            ValidationUtils.requireValidListName(listName)
-            ValidationUtils.requireValidValue(value)
 
             sendListRemoveValue(cacheName, listName.toByteString(), value.toByteString())
         }.fold(
@@ -672,8 +651,6 @@ internal actual class InternalDataClient actual constructor(
     ): ListRemoveValueResponse {
         return runCatching {
             ValidationUtils.requireValidCacheName(cacheName)
-            ValidationUtils.requireValidListName(listName)
-            ValidationUtils.requireValidValue(value)
 
             sendListRemoveValue(cacheName, listName.toByteString(), value.toByteString())
         }.fold(
@@ -716,7 +693,6 @@ internal actual class InternalDataClient actual constructor(
         ttl: CollectionTtl?): ListRetainResponse {
         return runCatching {
             ValidationUtils.requireValidCacheName(cacheName)
-            ValidationUtils.requireValidListName(listName)
             ValidationUtils.requireIndexRangeValid(startIndex, endIndex)
             val effectiveTtl = ttl ?: CollectionTtl.of(itemDefaultTtl)
 

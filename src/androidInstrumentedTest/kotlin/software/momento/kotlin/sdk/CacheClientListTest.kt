@@ -1,9 +1,9 @@
 package software.momento.kotlin.sdk
 
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.filters.LargeTest
 import kotlinx.coroutines.test.runTest
-import kotlin.test.Test
-import kotlin.test.assertTrue
-import kotlin.test.assertEquals
+import org.junit.runner.RunWith
 import software.momento.kotlin.sdk.exceptions.InvalidArgumentException
 import software.momento.kotlin.sdk.requests.CollectionTtl
 import software.momento.kotlin.sdk.responses.cache.list.ListConcatenateBackResponse
@@ -16,12 +16,15 @@ import software.momento.kotlin.sdk.responses.cache.list.ListPushBackResponse
 import software.momento.kotlin.sdk.responses.cache.list.ListPushFrontResponse
 import software.momento.kotlin.sdk.responses.cache.list.ListRemoveValueResponse
 import software.momento.kotlin.sdk.responses.cache.list.ListRetainResponse
-import kotlin.test.assertContentEquals
 import kotlin.time.Duration.Companion.seconds
+import kotlin.test.Test
+import kotlin.test.assertTrue
+import kotlin.test.assertEquals
+import kotlin.test.assertContentEquals
 
-class CacheClientListTest: BaseJvmTestClass() {
-
-    /** List concatenate */
+@RunWith(AndroidJUnit4::class)
+@LargeTest
+class CacheClientListTest: BaseAndroidTestClass() {
 
     @Test
     fun listConcatenateBackFailsWithInvalidCacheName() = runTest {
@@ -483,7 +486,6 @@ class CacheClientListTest: BaseJvmTestClass() {
 
         fetchResponse = cacheClient.listFetch(cacheName, listName)
         assertTrue(fetchResponse is ListFetchResponse.Hit)
-        fetchResponse as ListFetchResponse.Hit
         assertEquals(1, fetchResponse.valueListByteArray.size)
         assertTrue(fetchResponse.valueListByteArray.any { it.contentEquals(oldValue) })
 
@@ -606,7 +608,6 @@ class CacheClientListTest: BaseJvmTestClass() {
         // Fetch list and verify the values
         val fetchResponse = cacheClient.listFetch(cacheName, listName, null, null)
         assertTrue(fetchResponse is ListFetchResponse.Hit)
-        fetchResponse as ListFetchResponse.Hit
         val expectedList = listOf("val2", "val3", "val4")
         assertEquals(3, fetchResponse.valueListString.size)
         assertTrue(expectedList.containsAll(fetchResponse.valueListString))
@@ -629,7 +630,6 @@ class CacheClientListTest: BaseJvmTestClass() {
         // Fetch list and verify the values
         val fetchResponse = cacheClient.listFetch(cacheName, listName, null, null)
         assertTrue(fetchResponse is ListFetchResponse.Hit)
-        fetchResponse as ListFetchResponse.Hit
         val expectedList = listOf("val2", "val3", "val4").map { it.toByteArray() }
         assertEquals(3, fetchResponse.valueListByteArray.size)
         expectedList.forEachIndexed { index, byteArray ->
@@ -667,7 +667,6 @@ class CacheClientListTest: BaseJvmTestClass() {
         val expectedList = listOf("val2", "val3")
         val fetchResponse = cacheClient.listFetch(cacheName, listName, null, null)
         assertTrue(fetchResponse is ListFetchResponse.Hit)
-        fetchResponse as ListFetchResponse.Hit
         assertEquals(2, fetchResponse.valueListString.size)
         assertTrue(expectedList.containsAll(fetchResponse.valueListString))
     }
@@ -688,7 +687,6 @@ class CacheClientListTest: BaseJvmTestClass() {
         val expectedList = listOf("val2", "val3")
         val fetchResponse = cacheClient.listFetch(cacheName, listName, null, null)
         assertTrue(fetchResponse is ListFetchResponse.Hit)
-        fetchResponse as ListFetchResponse.Hit
         assertEquals(2, fetchResponse.valueListString.size)
         assertTrue(expectedList.containsAll(fetchResponse.valueListString))
     }
@@ -759,7 +757,6 @@ class CacheClientListTest: BaseJvmTestClass() {
 
         val fetchResponse = cacheClient.listFetch(cacheName, listName, null, null)
         assertTrue(fetchResponse is ListFetchResponse.Hit)
-        fetchResponse as ListFetchResponse.Hit
         assertEquals(stringValues, fetchResponse.valueListString)
     }
 

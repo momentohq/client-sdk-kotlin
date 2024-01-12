@@ -6,16 +6,27 @@ import software.momento.kotlin.sdk.exceptions.SdkException
 public sealed interface ListPopFrontResponse {
 
     /** A successful list pop front operation. */
-    public data class Hit(private val value: ByteArray) : ListPopFrontResponse {
-
-        /** Retrieves the value as a byte array. */
-        public fun valueByteArray(): ByteArray = value
+    public data class Hit(val valueByteArray: ByteArray) : ListPopFrontResponse {
 
         /** Retrieves the value as a string. */
-        public fun valueString(): String = String(value)
+        val valueString: String by lazy {
+            String(valueByteArray)
+        }
 
-        /** Retrieves the value as a string. */
-        public fun value() : String = valueString()
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (javaClass != other?.javaClass) return false
+
+            other as Hit
+
+            if (!valueByteArray.contentEquals(other.valueByteArray)) return false
+
+            return true
+        }
+
+        override fun hashCode(): Int {
+            return valueByteArray.contentHashCode()
+        }
     }
 
     /** A successful pop front operation that did not find elements. */

@@ -5,6 +5,7 @@ import org.junit.AfterClass
 import org.junit.BeforeClass
 import software.momento.kotlin.sdk.auth.CredentialProvider
 import software.momento.kotlin.sdk.config.Configurations
+import software.momento.kotlin.sdk.responses.cache.control.CacheCreateResponse
 import java.util.UUID
 import kotlin.time.Duration.Companion.seconds
 
@@ -23,7 +24,12 @@ open class BaseJvmTestClass {
                 itemDefaultTtl = 60.seconds
             )
 
-            runBlocking { cacheClient.createCache(cacheName) }
+            runBlocking {
+                val cacheClientResponse = cacheClient.createCache(cacheName)
+                if (cacheClientResponse is CacheCreateResponse.Error) {
+                    throw RuntimeException("Could not create cache for tests: " + cacheClientResponse.message)
+                }
+            }
         }
 
         @JvmStatic
