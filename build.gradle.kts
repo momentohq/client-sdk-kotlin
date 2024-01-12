@@ -11,7 +11,7 @@ plugins {
 
 group = "software.momento.kotlin"
 // x-release-please-start-version
-version = "0.1.2-SNAPSHOT"
+version = "0.1.2"
 // x-release-please-end
 
 repositories {

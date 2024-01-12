@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.1.2](https://github.com/momentohq/client-sdk-kotlin/compare/v0.1.1...v0.1.2) (2024-01-12)
+
+
+### Bug Fixes
+
+* account for jvm and android when signing before publishing ([228bc0f](https://github.com/momentohq/client-sdk-kotlin/commit/228bc0fa038f7486769d3f5ddc55e42711039dc2))
+
+
+### Miscellaneous
+
+* **main:** release 0.1.2-SNAPSHOT ([55e5ba5](https://github.com/momentohq/client-sdk-kotlin/commit/55e5ba5fd20d3a3cec839b762a1491578907a7ea))
+
 ## [0.1.1](https://github.com/momentohq/client-sdk-kotlin/compare/v0.1.0...v0.1.1) (2024-01-12)
 
 
