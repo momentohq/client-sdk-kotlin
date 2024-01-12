@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.1.3](https://github.com/momentohq/client-sdk-kotlin/compare/v0.1.2...v0.1.3) (2024-01-12)
+
+
+### Bug Fixes
+
+* workaround for multiplatform/gradle 8 signing bug ([92ccf38](https://github.com/momentohq/client-sdk-kotlin/commit/92ccf385be06c2a04df97baacdd108f3ab7f1e58))
+
+
+### Miscellaneous
+
+* **main:** release 0.1.3-SNAPSHOT ([6b4a337](https://github.com/momentohq/client-sdk-kotlin/commit/6b4a337388b4b4990e6b9f57fb8fc2c2f739156e))
+
 ## [0.1.2](https://github.com/momentohq/client-sdk-kotlin/compare/v0.1.1...v0.1.2) (2024-01-12)
 
 
