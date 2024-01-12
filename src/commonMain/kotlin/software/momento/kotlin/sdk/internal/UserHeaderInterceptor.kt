@@ -3,7 +3,7 @@ package software.momento.kotlin.sdk.internal
 import kotlin.jvm.Volatile
 
 internal class UserHeaderInterceptor(private val tokenValue: String) : io.grpc.ClientInterceptor {
-    private val sdkVersion = String.format("java:%s", this.javaClass.getPackage().implementationVersion)
+    private val sdkVersion = String.format("kotlin:%s", this.javaClass.getPackage()?.implementationVersion ?:  "unknown")
     override fun <ReqT, RespT> interceptCall(
         methodDescriptor: io.grpc.MethodDescriptor<ReqT, RespT>,
         callOptions: io.grpc.CallOptions,
