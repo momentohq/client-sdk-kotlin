@@ -164,11 +164,9 @@ if (signingKey != null) {
     }
 }
 
-afterEvaluate {
-    tasks.named("publishAndroidReleasePublicationToSonatypeRepository").configure {
-        mustRunAfter(":signJvmPublication", ":signAndroidReleasePublication")
-    }
-    tasks.named("publishJvmPublicationToSonatypeRepository").configure {
-        mustRunAfter(":signJvmPublication", ":signAndroidReleasePublication")
-    }
+// Fix Gradle error about signing tasks using publishing task outputs without explicit dependencies
+// https://github.com/gradle/gradle/issues/26091
+tasks.withType<AbstractPublishToMaven>().configureEach {
+    val signingTasks = tasks.withType<Sign>()
+    mustRunAfter(signingTasks)
 }
