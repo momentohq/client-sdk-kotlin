@@ -676,7 +676,7 @@ internal actual class InternalDataClient actual constructor(
         return runCatching {
             stubsManager.stub.listRemove(request, metadata)
         }.fold(
-            onSuccess = { response ->
+            onSuccess = { _ ->
                 ListRemoveValueResponse.Success
             },
             onFailure = { e ->
@@ -726,7 +726,7 @@ internal actual class InternalDataClient actual constructor(
         return runCatching {
             stubsManager.stub.listRetain(request, metadata)
         }.fold(
-            onSuccess = { response ->
+            onSuccess = { _ ->
                 ListRetainResponse.Success
             },
             onFailure = { e ->
