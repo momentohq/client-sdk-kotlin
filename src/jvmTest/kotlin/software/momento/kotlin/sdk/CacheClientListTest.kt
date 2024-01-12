@@ -295,7 +295,7 @@ class CacheClientListTest: BaseJvmTestClass() {
             "Expected Miss, response is $lengthResponse"
         )
 
-        var concatResponse =
+        val concatResponse =
             cacheClient.listConcatenateBack(cacheName, listName, values, null, CollectionTtl.of(5.seconds))
         assertTrue(concatResponse is ListConcatenateBackResponse.Success)
 
@@ -483,7 +483,6 @@ class CacheClientListTest: BaseJvmTestClass() {
 
         fetchResponse = cacheClient.listFetch(cacheName, listName)
         assertTrue(fetchResponse is ListFetchResponse.Hit)
-        fetchResponse as ListFetchResponse.Hit
         assertEquals(1, fetchResponse.valueListByteArray.size)
         assertTrue(fetchResponse.valueListByteArray.any { it.contentEquals(oldValue) })
 
@@ -534,13 +533,13 @@ class CacheClientListTest: BaseJvmTestClass() {
         val values = listOf("val1", "val2", "val3")
         val listName = "listPopFront"
 
-        var fetchResponse = cacheClient.listFetch(cacheName, listName, null, null)
+        val fetchResponse = cacheClient.listFetch(cacheName, listName, null, null)
         assertTrue(
             fetchResponse is ListFetchResponse.Miss,
             "Expected Miss, response is $fetchResponse"
         )
 
-        var concatenateResponse =
+        val concatenateResponse =
             cacheClient.listConcatenateBack(cacheName, listName, values, null, CollectionTtl.of(5.seconds))
         assertTrue(concatenateResponse is ListConcatenateBackResponse.Success)
 
@@ -560,13 +559,13 @@ class CacheClientListTest: BaseJvmTestClass() {
         val values = listOf("val1", "val2", "val3")
         val listName = "listPopBack"
 
-        var fetchResponse = cacheClient.listFetch(cacheName, listName, null, null)
+        val fetchResponse = cacheClient.listFetch(cacheName, listName, null, null)
         assertTrue(
             fetchResponse is ListFetchResponse.Miss,
             "Expected Miss, response is $fetchResponse"
         )
 
-        var concatenateResponse =
+        val concatenateResponse =
             cacheClient.listConcatenateBack(cacheName, listName, values, null, CollectionTtl.of(5.seconds))
         assertTrue(concatenateResponse is ListConcatenateBackResponse.Success)
 
@@ -594,7 +593,7 @@ class CacheClientListTest: BaseJvmTestClass() {
         val values = listOf("val1", "val1", "val2", "val3", "val4")
         val listName = "listStringRemove"
 
-        var concatenateResponse =
+        val concatenateResponse =
             cacheClient.listConcatenateFront(cacheName, listName, values, null, CollectionTtl.of(5.seconds))
         assertTrue(concatenateResponse is ListConcatenateFrontResponse.Success)
 
@@ -606,7 +605,6 @@ class CacheClientListTest: BaseJvmTestClass() {
         // Fetch list and verify the values
         val fetchResponse = cacheClient.listFetch(cacheName, listName, null, null)
         assertTrue(fetchResponse is ListFetchResponse.Hit)
-        fetchResponse as ListFetchResponse.Hit
         val expectedList = listOf("val2", "val3", "val4")
         assertEquals(3, fetchResponse.valueListString.size)
         assertTrue(expectedList.containsAll(fetchResponse.valueListString))
@@ -617,7 +615,7 @@ class CacheClientListTest: BaseJvmTestClass() {
         val values = listOf("val1", "val1", "val2", "val3", "val4").map { it.toByteArray() }
         val listName = "listByteArrayRemove"
 
-        var concatenateResponse =
+        val concatenateResponse =
             cacheClient.listConcatenateFrontByteArray(cacheName, listName, values, null, CollectionTtl.of(5.seconds))
         assertTrue(concatenateResponse is ListConcatenateFrontResponse.Success)
 
@@ -629,7 +627,6 @@ class CacheClientListTest: BaseJvmTestClass() {
         // Fetch list and verify the values
         val fetchResponse = cacheClient.listFetch(cacheName, listName, null, null)
         assertTrue(fetchResponse is ListFetchResponse.Hit)
-        fetchResponse as ListFetchResponse.Hit
         val expectedList = listOf("val2", "val3", "val4").map { it.toByteArray() }
         assertEquals(3, fetchResponse.valueListByteArray.size)
         expectedList.forEachIndexed { index, byteArray ->
@@ -656,7 +653,7 @@ class CacheClientListTest: BaseJvmTestClass() {
         val listName = "listRetainWithPositiveStartEndIndices"
         val stringValues = listOf("val1", "val2", "val3", "val4")
 
-        var concatenateResponse =
+        val concatenateResponse =
             cacheClient.listConcatenateFront(cacheName, listName, stringValues, null, CollectionTtl.of(5.seconds))
         assertTrue(concatenateResponse is ListConcatenateFrontResponse.Success)
 
@@ -667,7 +664,6 @@ class CacheClientListTest: BaseJvmTestClass() {
         val expectedList = listOf("val2", "val3")
         val fetchResponse = cacheClient.listFetch(cacheName, listName, null, null)
         assertTrue(fetchResponse is ListFetchResponse.Hit)
-        fetchResponse as ListFetchResponse.Hit
         assertEquals(2, fetchResponse.valueListString.size)
         assertTrue(expectedList.containsAll(fetchResponse.valueListString))
     }
@@ -677,7 +673,7 @@ class CacheClientListTest: BaseJvmTestClass() {
         val listName = "listRetainWithNegativeStartEndIndices"
         val stringValues = listOf("val1", "val2", "val3", "val4")
 
-        var concatenateResponse =
+        val concatenateResponse =
             cacheClient.listConcatenateFront(cacheName, listName, stringValues, null, CollectionTtl.of(5.seconds))
         assertTrue(concatenateResponse is ListConcatenateFrontResponse.Success)
 
@@ -688,7 +684,6 @@ class CacheClientListTest: BaseJvmTestClass() {
         val expectedList = listOf("val2", "val3")
         val fetchResponse = cacheClient.listFetch(cacheName, listName, null, null)
         assertTrue(fetchResponse is ListFetchResponse.Hit)
-        fetchResponse as ListFetchResponse.Hit
         assertEquals(2, fetchResponse.valueListString.size)
         assertTrue(expectedList.containsAll(fetchResponse.valueListString))
     }
@@ -698,7 +693,7 @@ class CacheClientListTest: BaseJvmTestClass() {
         val listName = "listRetainWithNullStartIndex"
         val stringValues = listOf("val1", "val2", "val3", "val4", "val5", "val6", "val7", "val8")
 
-        var concatenateResponse =
+        val concatenateResponse =
             cacheClient.listConcatenateFront(cacheName, listName, stringValues, null, CollectionTtl.of(5.seconds))
         assertTrue(concatenateResponse is ListConcatenateFrontResponse.Success)
 
@@ -724,7 +719,7 @@ class CacheClientListTest: BaseJvmTestClass() {
         val listName = "listRetainWithNullEndIndex"
         val stringValues = listOf("val1", "val2", "val3", "val4", "val5", "val6", "val7", "val8")
 
-        var concatenateResponse =
+        val concatenateResponse =
             cacheClient.listConcatenateFront(cacheName, listName, stringValues, null, CollectionTtl.of(5.seconds))
         assertTrue(concatenateResponse is ListConcatenateFrontResponse.Success)
 
@@ -750,7 +745,7 @@ class CacheClientListTest: BaseJvmTestClass() {
         val listName = "listRetainWithNullStartAndEndIndices"
         val stringValues = listOf("val1", "val2", "val3", "val4", "val5", "val6", "val7", "val8")
 
-        var concatenateResponse =
+        val concatenateResponse =
             cacheClient.listConcatenateFront(cacheName, listName, stringValues, null, CollectionTtl.of(5.seconds))
         assertTrue(concatenateResponse is ListConcatenateFrontResponse.Success)
 
@@ -759,7 +754,6 @@ class CacheClientListTest: BaseJvmTestClass() {
 
         val fetchResponse = cacheClient.listFetch(cacheName, listName, null, null)
         assertTrue(fetchResponse is ListFetchResponse.Hit)
-        fetchResponse as ListFetchResponse.Hit
         assertEquals(stringValues, fetchResponse.valueListString)
     }
 
@@ -768,7 +762,7 @@ class CacheClientListTest: BaseJvmTestClass() {
         val listName = "listName"
         val stringValues = listOf("val1", "val2", "val3", "val4", "val5", "val6", "val7", "val8")
 
-        var concatenateResponse =
+        val concatenateResponse =
             cacheClient.listConcatenateFront(cacheName, listName, stringValues, null, CollectionTtl.of(5.seconds))
         assertTrue(concatenateResponse is ListConcatenateFrontResponse.Success)
 
