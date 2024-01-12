@@ -166,6 +166,9 @@ if (signingKey != null) {
 
 afterEvaluate {
     tasks.named("publishAndroidReleasePublicationToSonatypeRepository").configure {
-        mustRunAfter(":signJvmPublication")
+        mustRunAfter(":signJvmPublication", ":signAndroidReleasePublication")
+    }
+    tasks.named("publishJvmPublicationToSonatypeRepository").configure {
+        mustRunAfter(":signJvmPublication", ":signAndroidReleasePublication")
     }
 }
