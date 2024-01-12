@@ -46,7 +46,7 @@ internal class DataGrpcStubsManager(credentialProvider: CredentialProvider, conf
             channelBuilder.useTransportSecurity()
             channelBuilder.disableRetry()
             val clientInterceptors: MutableList<ClientInterceptor> = ArrayList()
-            clientInterceptors.add(UserHeaderInterceptor(credentialProvider.apiKey))
+            clientInterceptors.add(UserHeaderInterceptor("jvm", credentialProvider.apiKey))
             channelBuilder.intercept(clientInterceptors)
             return channelBuilder.build()
         }
