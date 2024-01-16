@@ -18,6 +18,12 @@ kotlin {
     jvmToolchain(8)
 }
 
+tasks.register<JavaExec>("basic") {
+    description = "Run the basic example"
+    classpath = sourceSets["main"].runtimeClasspath
+    mainClass = "software.momento.example.BasicExampleKt"
+}
+
 tasks.register<JavaExec>("docExamples") {
     description = "Run the doc examples"
     classpath = sourceSets["main"].runtimeClasspath
@@ -28,4 +34,10 @@ tasks.register<JavaExec>("readmeExample") {
     description = "Run the readme example"
     classpath = sourceSets["main"].runtimeClasspath
     mainClass = "software.momento.example.doc_examples.ReadmeExampleKt"
+}
+
+tasks.register<JavaExec>("cheatSheetExample") {
+    description = "Run the cheat sheet example"
+    classpath = sourceSets["main"].runtimeClasspath
+    mainClass = "software.momento.example.doc_examples.CheatSheetKt"
 }
