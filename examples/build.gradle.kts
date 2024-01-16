@@ -1,0 +1,31 @@
+plugins {
+    kotlin("jvm") version "1.9.22"
+}
+
+group = "software.momento.kotlin"
+version = "1.0-SNAPSHOT"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation("software.momento.kotlin:sdk:0.1.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+}
+
+kotlin {
+    jvmToolchain(8)
+}
+
+tasks.register<JavaExec>("docExamples") {
+    description = "Run the doc examples"
+    classpath = sourceSets["main"].runtimeClasspath
+    mainClass = "software.momento.example.doc_examples.DocExamplesKt"
+}
+
+tasks.register<JavaExec>("readmeExample") {
+    description = "Run the readme example"
+    classpath = sourceSets["main"].runtimeClasspath
+    mainClass = "software.momento.example.doc_examples.ReadmeExampleKt"
+}
