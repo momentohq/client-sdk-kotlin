@@ -2,33 +2,23 @@
 
 ## Packages
 
-The Kotlin SDK is available on the Sonatype Central snapshots repo:
+The Kotlin SDK is available on Maven Central:
 
 ### Gradle
 
 ```kotlin
-repositories {
-    maven("https://s01.oss.sonatype.org/content/repositories/snapshots/")
-}
-
 dependencies {
-    implementation("software.momento.kotlin:sdk:0.1.0-SNAPSHOT")
+    implementation("software.momento.kotlin:sdk:0.1.3")
 }
 ```
 
 ### Maven
 
 ```xml
-<repository>
-    <id>sonatype-snapshots</id>
-    <name>Sonatype Snapshots</name>
-    <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
-</repository>
-
 <dependency>
     <groupId>software.momento.kotlin</groupId>
     <artifactId>sdk</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>0.1.3</version>
 </dependency>
 ```
 

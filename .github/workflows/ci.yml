@@ -77,3 +77,35 @@ jobs:
         with:
           api-level: ${{ matrix.api-level }}
           script: ./gradlew connectedCheck
+
+  examples:
+    runs-on: ubuntu-latest
+    env:
+      MOMENTO_API_KEY: ${{ secrets.ALPHA_TEST_AUTH_TOKEN }}
+
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: 'corretto'
+
+      - name: Run doc examples
+        id: validation
+        run: |
+          cd examples
+          ./gradlew docExamples readmeExample cheatSheetExample basic
+
+      - name: Send CI failure mail
+        if: ${{ steps.validation.outcome == 'failure' }}
+        uses: momentohq/standards-and-practices/github-actions/error-email-action@gh-actions-v1
+        with:
+          username: ${{secrets.MOMENTO_ROBOT_GMAIL_USERNAME}}
+          password: ${{secrets.MOMENTO_ROBOT_GMAIL_PASSWORD}}
+
+      - name: Flag Job Failure
+        if: ${{ steps.validation.outcome == 'failure' }}
+        run: exit 1
