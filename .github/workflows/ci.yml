@@ -93,17 +93,12 @@ jobs:
           java-version: 17
           distribution: 'corretto'
 
-      - name: Set up gradle
-        uses: gradle/gradle-build-action@v2.11.1
-        with:
-          build-root-directory: ./examples
-
       - name: Run doc examples
         uses: gradle/gradle-build-action@v2.11.1
         id: validation
-        run: ./gradlew docExamples readmeExample cheatSheetExample basic
         with:
           build-root-directory: ./examples
+          arguments: docExamples readmeExample cheatSheetExample basic
 
       - name: Send CI failure mail
         if: ${{ steps.validation.outcome == 'failure' }}

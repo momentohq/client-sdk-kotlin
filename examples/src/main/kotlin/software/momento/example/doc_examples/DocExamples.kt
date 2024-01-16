@@ -26,32 +26,32 @@ const val FAKE_V1_API_KEY =
             "ZEVCbGVHRnRjR3hsTG1OdmJTSjkuOEl5OHE4NExzci1EM1lDb19IUDRkLXhqSGRUOFVDSXV2QVljeGhGTXl6OCIsICJlbmRwb2ludCI6" +
             "ICJ0ZXN0Lm1vbWVudG9ocS5jb20ifQo="
 
-fun retrieveAuthTokenFromYourSecretsManager(): String {
+suspend fun retrieveAuthTokenFromYourSecretsManager(): String {
     return FAKE_V1_API_KEY
 }
 
-fun example_API_CredentialProviderFromEnvVar() {
+suspend fun example_API_CredentialProviderFromEnvVar() {
     CredentialProvider.fromEnvVar("MOMENTO_API_KEY")
 }
 
-fun example_API_CredentialProviderFromString() {
+suspend fun example_API_CredentialProviderFromString() {
     val authToken = retrieveAuthTokenFromYourSecretsManager()
     CredentialProvider.fromString(authToken)
 }
 
-fun example_API_ConfigurationLaptop() {
+suspend fun example_API_ConfigurationLaptop() {
     Configurations.Laptop.latest
 }
 
-fun example_API_ConfigurationInRegionLatest() {
+suspend fun example_API_ConfigurationInRegionLatest() {
     Configurations.InRegion.latest
 }
 
-fun example_API_ConfigurationLowLatency() {
+suspend fun example_API_ConfigurationLowLatency() {
     Configurations.InRegion.LowLatency.latest
 }
 
-fun example_API_InstantiateCacheClient() {
+suspend fun example_API_InstantiateCacheClient() {
     CacheClient(
         CredentialProvider.fromEnvVar("MOMENTO_API_KEY"), Configurations.Laptop.latest, 60.seconds
     ).use { cacheClient ->
