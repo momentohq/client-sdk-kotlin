@@ -143,7 +143,7 @@ suspend fun example_API_Delete(cacheClient: CacheClient) {
     }
 }
 
-fun example_API_InstantiateTopicClient() {
+suspend fun example_API_InstantiateTopicClient() {
     TopicClient(
         CredentialProvider.fromEnvVar("MOMENTO_API_KEY"), TopicConfigurations.Laptop.latest
     ).use { topicClient ->
