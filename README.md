@@ -16,7 +16,7 @@ To get started with Momento you will need a Momento Auth Token. You can get one 
 * Website: [https://www.gomomento.com/](https://www.gomomento.com/)
 * Momento Documentation: [https://docs.momentohq.com/](https://docs.momentohq.com/)
 * Getting Started: [https://docs.momentohq.com/getting-started](https://docs.momentohq.com/getting-started)
-* Kotlin SDK Documentation: [https://docs.momentohq.com/develop/sdks/kotlin](https://docs.momentohq.com/develop/sdks/kotlin)
+* Kotlin SDK Documentation: [https://docs.momentohq.com/sdks/kotlin](https://docs.momentohq.com/sdks/kotlin)
 * Discuss: [Momento Discord](https://discord.gg/3HkAKjUZGq)
 
 ## Packages
@@ -77,11 +77,11 @@ fun main() = runBlocking {
 
 ## Getting Started and Documentation
 
-Documentation coming soon on the [Momento Docs website](https://docs.momentohq.com).
+Documentation is available on the [Momento Docs website](https://docs.momentohq.com/sdks/kotlin).
 
 ## Examples
 
-Examples coming soon.
+Working example projects, with all required build configuration files, are available in the [examples](./examples) subdirectory.
 
 ## Developing
 
