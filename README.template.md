@@ -30,11 +30,11 @@ dependencies {
 
 ## Getting Started and Documentation
 
-Documentation coming soon on the [Momento Docs website](https://docs.momentohq.com).
+Documentation is available on the [Momento Docs website](https://docs.momentohq.com/sdks/kotlin).
 
 ## Examples
 
-Examples coming soon.
+Working example projects, with all required build configuration files, are available in the [examples](./examples) subdirectory.
 
 ## Developing
 
