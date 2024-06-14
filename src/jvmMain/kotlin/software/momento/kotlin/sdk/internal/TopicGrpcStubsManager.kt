@@ -59,7 +59,7 @@ internal class TopicGrpcStubsManager(credentialProvider: CredentialProvider) : C
             channelBuilder.keepAliveTimeout(5, TimeUnit.SECONDS)
             channelBuilder.keepAliveWithoutCalls(true)
             val clientInterceptors: MutableList<ClientInterceptor> = ArrayList()
-            clientInterceptors.add(UserHeaderInterceptor("jvm", credentialProvider.apiKey))
+            clientInterceptors.add(UserHeaderInterceptor(credentialProvider.apiKey))
             channelBuilder.intercept(clientInterceptors)
             return channelBuilder.build()
         }
