@@ -1,6 +1,5 @@
 package software.momento.kotlin.sdk.internal
 
-import grpc.cache_client.ScsGrpcKt
 import grpc.control_client.ScsControlGrpcKt
 import io.grpc.ClientInterceptor
 import io.grpc.ManagedChannel
@@ -18,6 +17,7 @@ internal class ControlGrpcStubsManager(credentialProvider: CredentialProvider) :
         channel = setupConnection(credentialProvider)
         futureStub = ScsControlGrpcKt.ScsControlCoroutineStub(channel)
     }
+
     val stub: ScsControlGrpcKt.ScsControlCoroutineStub
         /**
          * Returns a stub with appropriate deadlines.
@@ -44,7 +44,7 @@ internal class ControlGrpcStubsManager(credentialProvider: CredentialProvider) :
             channelBuilder.useTransportSecurity()
             channelBuilder.disableRetry()
             val clientInterceptors: MutableList<ClientInterceptor> = ArrayList()
-            clientInterceptors.add(UserHeaderInterceptor(credentialProvider.apiKey))
+            clientInterceptors.add(UserHeaderInterceptor(credentialProvider.apiKey, "cache"))
             channelBuilder.intercept(clientInterceptors)
             return channelBuilder.build()
         }

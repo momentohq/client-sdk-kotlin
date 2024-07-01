@@ -1,11 +1,6 @@
 package software.momento.kotlin.sdk.internal
 
 internal actual class PlatformInfo {
-    internal actual val sdkVersion: String
-        get() {
-            val version = this.javaClass.getPackage()?.implementationVersion ?:  "unknown"
-            return "kotlin-jvm:$version"
-        }
     internal actual val runtimeVersion: String
         get() {
             val javaVendor = System.getProperty("java.vendor")
@@ -13,4 +8,9 @@ internal actual class PlatformInfo {
             val kotlinVersion = KotlinVersion.CURRENT
             return "$javaVendor:$javaVersion, Kotlin $kotlinVersion"
         }
+
+    internal actual fun getSdkVersion(clientType: String): String {
+        val version = this.javaClass.getPackage()?.implementationVersion ?: "unknown"
+        return "kotlin-jvm:$clientType:$version"
+    }
 }
