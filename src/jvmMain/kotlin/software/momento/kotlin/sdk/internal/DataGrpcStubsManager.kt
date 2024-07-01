@@ -9,9 +9,9 @@ import software.momento.kotlin.sdk.config.GrpcConfiguration
 import java.io.Closeable
 import java.util.concurrent.TimeUnit
 import kotlin.time.Duration
-import kotlin.time.Duration.Companion.minutes
 
-internal class DataGrpcStubsManager(credentialProvider: CredentialProvider, configuration: GrpcConfiguration) : Closeable {
+internal class DataGrpcStubsManager(credentialProvider: CredentialProvider, configuration: GrpcConfiguration) :
+    Closeable {
     private val deadline: Duration
     private val channel: ManagedChannel
     private val futureStub: ScsGrpcKt.ScsCoroutineStub
@@ -21,6 +21,7 @@ internal class DataGrpcStubsManager(credentialProvider: CredentialProvider, conf
         channel = setupConnection(credentialProvider)
         futureStub = ScsGrpcKt.ScsCoroutineStub(channel)
     }
+
     val stub: ScsGrpcKt.ScsCoroutineStub
         /**
          * Returns a stub with appropriate deadlines.
@@ -46,7 +47,7 @@ internal class DataGrpcStubsManager(credentialProvider: CredentialProvider, conf
             channelBuilder.useTransportSecurity()
             channelBuilder.disableRetry()
             val clientInterceptors: MutableList<ClientInterceptor> = ArrayList()
-            clientInterceptors.add(UserHeaderInterceptor("jvm", credentialProvider.apiKey))
+            clientInterceptors.add(UserHeaderInterceptor(credentialProvider.apiKey, "cache"))
             channelBuilder.intercept(clientInterceptors)
             return channelBuilder.build()
         }
