@@ -45,8 +45,7 @@ jobs:
         arguments: clean build
 
   android:
-    # The Android emulator only has hardware acceleration on macOS.
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     strategy:
       matrix:
         api-level: [ 23 ]

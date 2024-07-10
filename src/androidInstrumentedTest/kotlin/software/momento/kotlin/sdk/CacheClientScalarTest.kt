@@ -38,19 +38,19 @@ class CacheClientScalarTest: BaseAndroidTestClass() {
         val value = "cache-value"
 
         var getResponse = cacheClient.get(cacheName, key)
-        assert(getResponse is GetResponse.Miss)
+        assert(getResponse is GetResponse.Miss) { "expected Miss, got $getResponse" }
 
         val setResponse = cacheClient.set(cacheName, key, value)
-        assert(setResponse is SetResponse.Success)
+        assert(setResponse is SetResponse.Success) { "expected Success, got $setResponse" }
 
         getResponse = cacheClient.get(cacheName, key)
         assert((getResponse as GetResponse.Hit).value == value)
 
         val deleteResponse = cacheClient.delete(cacheName, key)
-        assert(deleteResponse is DeleteResponse.Success)
+        assert(deleteResponse is DeleteResponse.Success) { "expected Success, got $deleteResponse" }
 
         getResponse = cacheClient.get(cacheName, key)
-        assert(getResponse is GetResponse.Miss)
+        assert(getResponse is GetResponse.Miss) { "expected Miss, got $getResponse" }
     }
 
     @Test
@@ -59,18 +59,18 @@ class CacheClientScalarTest: BaseAndroidTestClass() {
         val value = "cache-value".encodeToByteArray()
 
         var getResponse = cacheClient.get(cacheName, key)
-        assert(getResponse is GetResponse.Miss)
+        assert(getResponse is GetResponse.Miss) { "expected Miss, got $getResponse" }
 
         val setResponse = cacheClient.set(cacheName, key, value)
-        assert(setResponse is SetResponse.Success)
+        assert(setResponse is SetResponse.Success) { "expected Miss, got $setResponse" }
 
         getResponse = cacheClient.get(cacheName, key)
         assert((getResponse as GetResponse.Hit).valueByteArray.contentEquals(value))
 
         val deleteResponse = cacheClient.delete(cacheName, key)
-        assert(deleteResponse is DeleteResponse.Success)
+        assert(deleteResponse is DeleteResponse.Success) { "expected Success, got $getResponse" }
 
         getResponse = cacheClient.get(cacheName, key)
-        assert(getResponse is GetResponse.Miss)
+        assert(getResponse is GetResponse.Miss) { "expected Miss, got $getResponse" }
     }
 }
