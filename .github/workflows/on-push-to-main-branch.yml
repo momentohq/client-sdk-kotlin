@@ -73,6 +73,4 @@ jobs:
           ORG_GRADLE_PROJECT_version: ${{ steps.semrel.outputs.version }}
         uses: gradle/gradle-build-action@v2.11.1
         with:
-#          TODO: automatically release when release process is verified to work
-#          arguments: publishToSonatype closeAndReleaseStagingRepository
-          arguments: publishToSonatype closeSonatypeStagingRepository
+          arguments: publishToSonatype closeAndReleaseStagingRepository
