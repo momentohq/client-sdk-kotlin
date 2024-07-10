@@ -45,10 +45,10 @@ jobs:
         arguments: clean build
 
   android:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        api-level: [ 23 ]
+        api-level: [ 26 ]
     env:
       TEST_API_KEY: ${{ secrets.ALPHA_TEST_AUTH_TOKEN }}
       TEST_CACHE_NAME: kotlin-integration-test-android-ci-${{ github.sha }}
