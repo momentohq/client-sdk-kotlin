@@ -63,7 +63,7 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 implementation(kotlin("stdlib-jdk8"))
-                implementation("software.momento.kotlin:client-protos-jvm:0.100.0")
+                implementation("software.momento.kotlin:client-protos-jvm:0.114.0")
                 runtimeOnly("io.grpc:grpc-netty:1.57.2")
             }
         }
@@ -74,7 +74,7 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
-                implementation("software.momento.kotlin:client-protos-android:0.100.0")
+                implementation("software.momento.kotlin:client-protos-android:0.114.0")
                 runtimeOnly("io.grpc:grpc-okhttp:1.57.2")
             }
         }
@@ -88,8 +88,8 @@ kotlin {
             dependencies {
                 implementation(kotlin("test-junit"))
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
-                implementation("androidx.test.ext:junit:1.1.5")
-                implementation("androidx.test.espresso:espresso-core:3.5.1")
+                implementation("androidx.test.ext:junit:1.2.1")
+                implementation("androidx.test.espresso:espresso-core:3.6.1")
             }
         }
     }

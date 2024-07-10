@@ -45,11 +45,10 @@ jobs:
         arguments: clean build
 
   android:
-    # The Android emulator only has hardware acceleration on macOS.
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        api-level: [ 23 ]
+        api-level: [ 26 ]
     env:
       TEST_API_KEY: ${{ secrets.ALPHA_TEST_AUTH_TOKEN }}
       TEST_CACHE_NAME: kotlin-integration-test-android-ci-${{ github.sha }}
@@ -71,6 +70,14 @@ jobs:
         uses: gradle/gradle-build-action@v2.11.1
         with:
           arguments: clean build -x jvmTest -x testDebugUnitTest -x testReleaseUnitTest
+
+      # Required for hardware accelerated Android emulation on linux
+      # See https://github.com/ReactiveCircus/android-emulator-runner
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
 
       - name: run tests
         uses: reactivecircus/android-emulator-runner@v2
