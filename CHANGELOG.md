@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.2.0](https://github.com/momentohq/client-sdk-kotlin/compare/v0.1.3...v0.2.0) (2024-07-10)
+
+
+### Features
+
+* add runtime version metadata to the first Momento call ([082564e](https://github.com/momentohq/client-sdk-kotlin/commit/082564e6e2c716ac62fc2fc98523e0e2aab5b7fd))
+
+
+### Bug Fixes
+
+* switch android github build to ubuntu ([a1c7ac9](https://github.com/momentohq/client-sdk-kotlin/commit/a1c7ac9715b63bca5b1a981d32b500ca4dcc2fc4))
+
+
+### Miscellaneous
+
+* add examples for documentation ([fb53346](https://github.com/momentohq/client-sdk-kotlin/commit/fb53346334269b539c04c68f321cdbbe378342bf))
+* add link to examples and the Kotlin docs page ([4e1053d](https://github.com/momentohq/client-sdk-kotlin/commit/4e1053d29d4befaefab3ae15685464cb307d755c))
+* **main:** release 0.1.4-SNAPSHOT ([6d768fd](https://github.com/momentohq/client-sdk-kotlin/commit/6d768fd913850de8037659c2334a2095454adc4f))
+
 ## [0.1.3](https://github.com/momentohq/client-sdk-kotlin/compare/v0.1.2...v0.1.3) (2024-01-12)
 
 
