@@ -34,13 +34,14 @@ public object CacheServiceExceptionMapper {
                 val errorDetails = MomentoTransportErrorDetails(
                     MomentoGrpcErrorDetails(statusCode, e.message!!, metadata)
                 )
-                convertStatusException(e, errorDetails, statusCode)
+                val errorCause = metadata?.get(Metadata.Key.of("err", Metadata.ASCII_STRING_MARSHALLER))
+                convertStatusException(e, errorDetails, statusCode, errorCause)
             }
             else -> UnknownException(SDK_FAILED_TO_PROCESS_THE_REQUEST, e)
         }
     }
 
-    private fun convertStatusException(e: Throwable, errorDetails: MomentoTransportErrorDetails, statusCode: Status.Code): SdkException {
+    private fun convertStatusException(e: Throwable, errorDetails: MomentoTransportErrorDetails, statusCode: Status.Code, errorCause: String?): SdkException {
         return when (statusCode) {
             Status.Code.INVALID_ARGUMENT, Status.Code.UNIMPLEMENTED,
             Status.Code.OUT_OF_RANGE, Status.Code.FAILED_PRECONDITION -> BadRequestException(
@@ -52,9 +53,9 @@ public object CacheServiceExceptionMapper {
                 e, errorDetails
             )
             Status.Code.UNAUTHENTICATED -> AuthenticationException(e, errorDetails)
-            Status.Code.RESOURCE_EXHAUSTED -> LimitExceededException(
-                e, errorDetails
-            )
+            Status.Code.RESOURCE_EXHAUSTED -> {
+                LimitExceededException(errorCause, errorDetails)
+            }
             Status.Code.NOT_FOUND -> NotFoundException(e, errorDetails)
             Status.Code.ALREADY_EXISTS -> AlreadyExistsException(e, errorDetails)
             Status.Code.UNKNOWN -> UnknownServiceException(e, errorDetails)
