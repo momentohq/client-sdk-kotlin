@@ -83,11 +83,11 @@ internal actual class InternalTopicClient actual constructor(
     }
 
     internal actual suspend fun subscribe(
-        cacheName: String, topicName: String, resumeAtTopicSequenceNumber: Long?
+        cacheName: String, topicName: String, resumeAtTopicSequenceNumber: Long?, resumeAtTopicSequencePage: Long?
     ): TopicSubscribeResponse {
         return runCatching {
             ValidationUtils.requireValidCacheName(cacheName)
-            sendSubscribe(cacheName, topicName, resumeAtTopicSequenceNumber)
+            sendSubscribe(cacheName, topicName, resumeAtTopicSequenceNumber, resumeAtTopicSequencePage)
         }.fold(onSuccess = { flow ->
             TopicSubscribeResponse.Subscription(flow)
         }, onFailure = { e ->
@@ -105,16 +105,17 @@ internal actual class InternalTopicClient actual constructor(
      */
 
     private suspend fun sendSubscribe(
-        cacheName: String, topicName: String, resumeAtTopicSequenceNumber: Long?
+        cacheName: String, topicName: String, resumeAtTopicSequenceNumber: Long?, resumeAtTopicSequencePage: Long?
     ): Flow<TopicMessage> = flow {
-        var lastSequenceNumber: Long? = resumeAtTopicSequenceNumber
+        var lastSequenceNumber: Long? = resumeAtTopicSequenceNumber ?: 0
+        var lastSequencePage: Long? = resumeAtTopicSequencePage ?: 0
         var isFirstMessage = true
         var retry = true
 
         val metadata = metadataWithCache(cacheName)
         while (retry && currentCoroutineContext().isActive) {
             try {
-                val request = buildSubscriptionRequest(cacheName, topicName, lastSequenceNumber)
+                val request = buildSubscriptionRequest(cacheName, topicName, lastSequenceNumber, lastSequencePage)
                 val subscriptionFlow = stubsManager.streamingStub.subscribe(request, metadata)
                 subscriptionFlow.onEach { message ->
                     if (isFirstMessage) {
@@ -125,12 +126,14 @@ internal actual class InternalTopicClient actual constructor(
                             )
                         }
                     }
+                    println("Received message: $message")
                 }.mapNotNull { message ->
                     convertSubscriptionItem(message)
-                }.collect { (topicMessage, sequenceNumber) ->
+                }.collect { (topicMessage, sequenceNumber, sequencePage) ->
                     if (!isFirstMessage) {
                         topicMessage?.let { emit(it) }
                         sequenceNumber?.let { lastSequenceNumber = it }
+                        sequencePage?.let { lastSequencePage = it }
                     }
                 }
             } catch (e: Exception) {
@@ -153,7 +156,7 @@ internal actual class InternalTopicClient actual constructor(
     }
 
     private fun buildSubscriptionRequest(
-        cacheName: String, topicName: String, lastSequenceNumber: Long?
+        cacheName: String, topicName: String, lastSequenceNumber: Long?, lastSequencePage: Long?
     ): _SubscriptionRequest {
         return _SubscriptionRequest.newBuilder().apply {
             this.cacheName = cacheName
@@ -161,15 +164,24 @@ internal actual class InternalTopicClient actual constructor(
             if (lastSequenceNumber != null) {
                 this.resumeAtTopicSequenceNumber = lastSequenceNumber
             }
+            if (lastSequencePage != null) {
+                this.sequencePage = lastSequencePage
+            }
         }.build()
     }
 
-    private data class ConvertedMessage(val message: TopicMessage?, val lastSequenceNumber: Long?)
+    private data class ConvertedMessage(val message: TopicMessage?, val lastSequenceNumber: Long?, val lastSequencePage: Long?)
 
     private fun convertSubscriptionItem(subscriptionItem: _SubscriptionItem): ConvertedMessage? {
         val lastSequenceNumber: Long? = when (subscriptionItem.kindCase) {
             _SubscriptionItem.KindCase.ITEM -> subscriptionItem.item.topicSequenceNumber
-            _SubscriptionItem.KindCase.DISCONTINUITY -> subscriptionItem.discontinuity.lastTopicSequence
+            _SubscriptionItem.KindCase.DISCONTINUITY -> subscriptionItem.discontinuity.newTopicSequence
+            else -> null
+        }
+
+        val lastSequencePage: Long? = when (subscriptionItem.kindCase) {
+            _SubscriptionItem.KindCase.ITEM -> subscriptionItem.item.sequencePage
+            _SubscriptionItem.KindCase.DISCONTINUITY -> subscriptionItem.discontinuity.newSequencePage
             else -> null
         }
 
@@ -189,8 +201,8 @@ internal actual class InternalTopicClient actual constructor(
             else -> null
         }
 
-        return if (topicMessage != null || lastSequenceNumber != null) {
-            ConvertedMessage(topicMessage, lastSequenceNumber)
+        return if (topicMessage != null || lastSequenceNumber != null || lastSequencePage != null) {
+            ConvertedMessage(topicMessage, lastSequenceNumber, lastSequencePage)
         } else {
             null
         }

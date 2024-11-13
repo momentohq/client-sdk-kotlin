@@ -13,5 +13,5 @@ internal expect class InternalTopicClient(credentialProvider: CredentialProvider
 
     internal suspend fun publish(cacheName: String, topicName: String, value: ByteArray): TopicPublishResponse
 
-    internal suspend fun subscribe(cacheName: String, topicName: String, resumeAtTopicSequenceNumber: Long? = null): TopicSubscribeResponse
+    internal suspend fun subscribe(cacheName: String, topicName: String, resumeAtTopicSequenceNumber: Long? = null, resumeAtTopicSequencePage: Long? = null): TopicSubscribeResponse
 }
