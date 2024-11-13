@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.2.1](https://github.com/momentohq/client-sdk-kotlin/compare/v0.2.0...v0.2.1) (2024-11-13)
+
+
+### Miscellaneous
+
+* duplicate test in android and jvm ([a31b16d](https://github.com/momentohq/client-sdk-kotlin/commit/a31b16da47f933c1c6437b99b00b2d12df946a9b))
+* **main:** release 0.2.1-SNAPSHOT ([2fd8301](https://github.com/momentohq/client-sdk-kotlin/commit/2fd83011f632da7d7edad728a093fed4e046f2d4))
+* modify resource exhausted message using metadata and add message wrapper to errors ([8670448](https://github.com/momentohq/client-sdk-kotlin/commit/8670448b4a1417151e95938e19cf65a505d558f8))
+* update examples to 0.2.0 ([01dcc01](https://github.com/momentohq/client-sdk-kotlin/commit/01dcc010912febd07c530c21a0442c0cdd6210eb))
+
 ## [0.2.0](https://github.com/momentohq/client-sdk-kotlin/compare/v0.1.3...v0.2.0) (2024-07-10)
 
 
