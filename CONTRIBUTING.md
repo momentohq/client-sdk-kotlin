@@ -11,7 +11,7 @@ export PATH=$PATH:$ANDROID_HOME/platform-tools
 ## Testing
 ### Intellij
 Android instrumented tests can be run by running them through IntelliJ with the Android plugin or Android Studio.
-The `TEST_API_KEY` must be set in your `.zshrc` or somewhere else IntelliJ can read it when it executes the gradle project. The tests cannot directly read environment variables from the host machine, so `TEST_API_KEY` is read by the gradle project and stored in a test property.
+The `MOMENTO_API_KEY` must be set in your `.zshrc` or somewhere else IntelliJ can read it when it executes the gradle project. The tests cannot directly read environment variables from the host machine, so `MOMENTO_API_KEY` is read by the gradle project and stored in a test property.
 
 ### Command Line
 Android instrumented tests can be run from the command line by first starting an emulator:
@@ -23,4 +23,4 @@ Then run the tests:
 ```bash
 ./gradlew connectedAndroidTest
 ```
-`TEST_API_KEY` must be set for the tests to work.
+`MOMENTO_API_KEY` must be set for the tests to work.

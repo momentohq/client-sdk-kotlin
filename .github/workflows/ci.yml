@@ -8,7 +8,7 @@ jobs:
   jvm:
     runs-on: ubuntu-latest
     env:
-      TEST_API_KEY: ${{ secrets.ALPHA_TEST_AUTH_TOKEN }}
+      MOMENTO_API_KEY: ${{ secrets.ALPHA_TEST_AUTH_TOKEN }}
       TEST_CACHE_NAME: kotlin-integration-test-jvm-ci-${{ github.sha }}
 
     steps:
@@ -50,7 +50,7 @@ jobs:
       matrix:
         api-level: [ 26 ]
     env:
-      TEST_API_KEY: ${{ secrets.ALPHA_TEST_AUTH_TOKEN }}
+      MOMENTO_API_KEY: ${{ secrets.ALPHA_TEST_AUTH_TOKEN }}
       TEST_CACHE_NAME: kotlin-integration-test-android-ci-${{ github.sha }}
 
     steps:
