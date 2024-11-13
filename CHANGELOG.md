@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.3.0](https://github.com/momentohq/client-sdk-kotlin/compare/v0.2.1...v0.3.0) (2024-11-13)
+
+
+### Features
+
+* add topic sequence page ([c32c1f6](https://github.com/momentohq/client-sdk-kotlin/commit/c32c1f6abb5fbe90f4b3bfbe5cbb7f7ec8f2d753))
+
+
+### Bug Fixes
+
+* copyright name in license file ([2aea590](https://github.com/momentohq/client-sdk-kotlin/commit/2aea590492bdbeebad1066d847194a8e14465cce))
+* move jvmToolChain to version 11 ([379a0e0](https://github.com/momentohq/client-sdk-kotlin/commit/379a0e0c29948e9297a7b2f2aaddccfaa2da0ab9))
+* rename TEST_API_KEY to MOMENTO_API_KEY ([020c1b8](https://github.com/momentohq/client-sdk-kotlin/commit/020c1b8c7ae01bbc996c3d17b0373585d7bca4ba))
+
+
+### Miscellaneous
+
+* **main:** release 0.2.2-SNAPSHOT ([4906d0d](https://github.com/momentohq/client-sdk-kotlin/commit/4906d0dfbffb245d508396f28ea1288a6d9d9c15))
+
 ## [0.2.1](https://github.com/momentohq/client-sdk-kotlin/compare/v0.2.0...v0.2.1) (2024-11-13)
 
 
