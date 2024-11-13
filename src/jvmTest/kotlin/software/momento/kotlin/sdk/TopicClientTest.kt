@@ -33,7 +33,7 @@ class TopicClientTest : BaseJvmTestClass() {
         @BeforeClass
         fun setUp() {
             topicClient = TopicClient(
-                credentialProvider = CredentialProvider.fromEnvVar("TEST_API_KEY"),
+                credentialProvider = CredentialProvider.fromEnvVar("MOMENTO_API_KEY"),
                 configuration = TopicConfigurations.Laptop.latest
             )
         }

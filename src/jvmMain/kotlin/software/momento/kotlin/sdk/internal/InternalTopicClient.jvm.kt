@@ -126,7 +126,6 @@ internal actual class InternalTopicClient actual constructor(
                             )
                         }
                     }
-                    println("Received message: $message")
                 }.mapNotNull { message ->
                     convertSubscriptionItem(message)
                 }.collect { (topicMessage, sequenceNumber, sequencePage) ->

@@ -22,7 +22,7 @@ open class BaseAndroidTestClass {
             // Instrumented Android tests cannot access environment variables directly, so we
             // pass them in as arguments to the test runner. They are defined in build.gradle.kts.
             val arguments = InstrumentationRegistry.getArguments()
-            val apiKey = arguments.getString("TestApiKey")!!
+            val apiKey = arguments.getString("MomentoApiKey")!!
             cacheName = arguments.getString("TestCacheName")!!
             credentialProvider = CredentialProvider.fromString(apiKey)
             cacheClient = CacheClient(

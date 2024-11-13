@@ -26,7 +26,7 @@ android {
     defaultConfig {
         minSdk = 23
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        testInstrumentationRunnerArguments["TestApiKey"] = System.getenv("TEST_API_KEY") ?: "noApiKeySet"
+        testInstrumentationRunnerArguments["MomentoApiKey"] = System.getenv("MOMENTO_API_KEY") ?: "noApiKeySet"
         testInstrumentationRunnerArguments["TestCacheName"] = System.getenv("TEST_CACHE_NAME") ?: "test-android-cache"
     }
 
@@ -43,7 +43,7 @@ kotlin {
         publishLibraryVariants("release")
     }
     jvm()
-    jvmToolchain(11)
+    jvmToolchain(17)
 
     sourceSets {
         val commonMain by getting {
