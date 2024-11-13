@@ -43,7 +43,7 @@ kotlin {
         publishLibraryVariants("release")
     }
     jvm()
-    jvmToolchain(17)
+    jvmToolchain(11)
 
     sourceSets {
         val commonMain by getting {
