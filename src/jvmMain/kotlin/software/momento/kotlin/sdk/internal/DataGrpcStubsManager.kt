@@ -46,6 +46,7 @@ internal class DataGrpcStubsManager(credentialProvider: CredentialProvider, conf
             val channelBuilder = ManagedChannelBuilder.forAddress(credentialProvider.cacheEndpoint, 443)
             channelBuilder.useTransportSecurity()
             channelBuilder.disableRetry()
+            channelBuilder.disableServiceConfigLookUp()
             val clientInterceptors: MutableList<ClientInterceptor> = ArrayList()
             clientInterceptors.add(UserHeaderInterceptor(credentialProvider.apiKey, "cache"))
             channelBuilder.intercept(clientInterceptors)

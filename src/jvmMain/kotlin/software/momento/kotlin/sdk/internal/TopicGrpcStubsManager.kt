@@ -55,6 +55,7 @@ internal class TopicGrpcStubsManager(credentialProvider: CredentialProvider) : C
             val channelBuilder = ManagedChannelBuilder.forAddress(credentialProvider.cacheEndpoint, 443)
             channelBuilder.useTransportSecurity()
             channelBuilder.disableRetry()
+            channelBuilder.disableServiceConfigLookUp();
             channelBuilder.keepAliveTime(10, TimeUnit.SECONDS)
             channelBuilder.keepAliveTimeout(5, TimeUnit.SECONDS)
             channelBuilder.keepAliveWithoutCalls(true)
