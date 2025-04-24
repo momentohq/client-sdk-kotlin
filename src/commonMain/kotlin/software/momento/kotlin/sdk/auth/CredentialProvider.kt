@@ -55,9 +55,7 @@ public data class CredentialProvider(
         }
 
         public fun forMomentoLocal(): CredentialProvider {
-            val x = MomentoLocalProvider.create();
-            println("x = $x")
-            return x
+            return MomentoLocalProvider.create();
         }
 
         private val json: Json = Json { ignoreUnknownKeys = true }
