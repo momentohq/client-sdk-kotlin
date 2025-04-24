@@ -5,13 +5,14 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import software.momento.kotlin.sdk.exceptions.InvalidArgumentException
 import software.momento.kotlin.sdk.internal.utils.decodeBase64
+import java.net.URI
 
 /**
  * Contains the information required for a Momento client to connect to and authenticate with
  * the Momento service.
  */
 public data class CredentialProvider(
-    val controlEndpoint: String, val cacheEndpoint: String, val apiKey: String
+    val controlEndpoint: String, val cacheEndpoint: String, val apiKey: String, val isSecure: Boolean? = true, val port: Int? = 443
 ) {
     public companion object {
         /**
@@ -31,7 +32,9 @@ public data class CredentialProvider(
                 }
                 return provider.copy(
                     controlEndpoint = controlHost ?: provider.controlEndpoint,
-                    cacheEndpoint = cacheHost ?: provider.cacheEndpoint
+                    cacheEndpoint = cacheHost ?: provider.cacheEndpoint,
+                    isSecure = provider.isSecure,
+                    port = provider.port
                 )
             } catch (e: Exception) {
                 throw InvalidArgumentException("Invalid API key")
@@ -49,6 +52,12 @@ public data class CredentialProvider(
         ): CredentialProvider {
             val apiKey = System.getenv(envVar) ?: throw InvalidArgumentException("Environment variable $envVar not set")
             return fromString(apiKey, controlHost, cacheHost)
+        }
+
+        public fun forMomentoLocal(): CredentialProvider {
+            val x = MomentoLocalProvider.create();
+            println("x = $x")
+            return x
         }
 
         private val json: Json = Json { ignoreUnknownKeys = true }
@@ -81,4 +90,9 @@ public data class CredentialProvider(
             @SerialName("cp") val controlEndpoint: String, @SerialName("c") val cacheEndpoint: String
         )
     }
+
+    public fun getPort(): Int {
+        return port ?: 443;
+    }
+
 }
