@@ -20,7 +20,7 @@ class CredentialProviderTest : UsingTestRunner() {
         private const val TEST_ENDPOINT = "testEndpoint"
         // Test tokens are all fake and nonfunctional.
         private const val TEST_ENV_VAR = "MOMENTO_TEST_GLOBAL_API_KEY"
-	    private const val TEST_GLOBAL_API_KEY      = "test_global_api_key_12345"
+	    private const val TEST_GLOBAL_API_KEY      = "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ0IjoiZyJ9.LloWc3qLRkBm_djlOjXE8wNSENqOay17xHLJR5XIr0cwkyhhh8w_oBaiQDktBkOvh-wKLQGUKavSQuOwXEb2_g"
         private const val LEGACY_API_KEY_VALID =
             ("eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzcXVpcnJlbCIsImNwIjoiY29udHJvbC5leGFtcGxlLmNvbSIsImMiOiJjYWNoZS5leGFtcG" +
                     "xlLmNvbSJ9.YY7RSMBCpMRs_qgbNkW0PYC2eX-MukLixLWJyvBpnMVaOba-OV0G5jgNmNbtn4zaLT8tlEncV6wQ_CkTI_PvoA")
@@ -254,6 +254,17 @@ class CredentialProviderTest : UsingTestRunner() {
         } catch (e: InvalidArgumentException) {
             assertContains(e.message!!, "V1 or legacy token")
             assertContains(e.message!!, "fromString()")
+        }
+    }
+
+    @Test
+    fun testFromStringWithGlobalApiKey() {
+        try {
+            CredentialProvider.fromString(TEST_GLOBAL_API_KEY)
+            fail("Expected InvalidArgumentException")
+        } catch (e: InvalidArgumentException) {
+            assertContains(e.message!!, "Received a global API key")
+            assertContains(e.message!!, "globalKeyFromString()")
         }
     }
 

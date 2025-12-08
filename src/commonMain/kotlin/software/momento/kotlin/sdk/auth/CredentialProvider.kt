@@ -23,6 +23,10 @@ public data class CredentialProvider(
         public fun fromString(
             apiKey: String, controlHost: String? = null, cacheHost: String? = null
         ): CredentialProvider {
+            if (isGlobalApiKey(apiKey)) {
+                throw InvalidArgumentException("Received a global API key. Are you using the correct key? Or did you mean to use"
+              + "`globalKeyFromString()` or `globalKeyFromEnvVar()` instead?")
+            }
             try {
                 val provider = try {
                     processLegacyKey(apiKey)
@@ -96,8 +100,8 @@ public data class CredentialProvider(
 
             if (isBase64EncodedToken(apiKey)) {
                 throw InvalidArgumentException(
-                    "Global API key appears to be a V1 or legacy token. " +
-                    "Please use CredentialProvider.fromString() instead of globalKeyFromString()"
+                    "Global API key appears to be a V1 or legacy token. Are you using the correct key? Or did you mean to use"
+                        + "`fromString()` or `fromEnvVar()` instead?"
                 )
             }
             return CredentialProvider(
@@ -125,13 +129,6 @@ public data class CredentialProvider(
             val apiKey = System.getenv(envVar)
             if (apiKey.isNullOrBlank()) {
                 throw InvalidArgumentException("Env var $envVar must be set")
-            }
-
-            if (isBase64EncodedToken(apiKey)) {
-                throw InvalidArgumentException(
-                    "Global API key appears to be a V1 or legacy token. " +
-                    "Please use CredentialProvider.fromString() instead of globalKeyFromString()"
-                )
             }
             
             return globalKeyFromString(apiKey, endpoint)
