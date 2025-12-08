@@ -38,6 +38,105 @@ public data class CredentialProvider(
             }
         }
 
+        private fun isGlobalApiKey(authToken: String): Boolean {
+            return try {
+                // JWT tokens have 3 parts separated by dots
+                if (authToken.count { it == '.' } != 2) {
+                    return false
+                }
+                
+                // Decode the payload (second part)
+                val parts = authToken.split('.')
+                if (parts.size != 3) {
+                    return false
+                }
+                
+                val payload = parts[1].decodeBase64() ?: return false
+                
+                // Check if it contains "t":"g" (global key indicator)
+                return payload.contains("\"t\"") && payload.contains("\"g\"")
+            } catch (e: Exception) {
+                false
+            }
+        }
+
+        private fun isBase64EncodedToken(apiKey: String): Boolean {
+            // Check if it's a global JWT (which is allowed)
+            if (isGlobalApiKey(apiKey)) {
+                return false
+            }
+            
+            // Legacy tokens have format: xxx.yyy.zzz (JWT format)
+            if (apiKey.count { it == '.' } == 2) {
+                return true
+            }
+            
+            // Check if it's base64 encoded (V1 tokens are base64 encoded)
+            return try {
+                apiKey.decodeBase64() != null
+            } catch (e: Exception) {
+                false
+            }
+        }
+
+        /**
+         * Creates a [CredentialProvider] using a global API key and endpoint.
+         * @param apiKey The global API key to use for authentication.
+         * @param endpoint The endpoint base domain (e.g., "cell-1-us-east-1.prod.a.momentohq.com").
+         */
+        public fun globalKeyFromString(
+            apiKey: String, endpoint: String
+        ): CredentialProvider {
+            if (apiKey.isBlank()) {
+                throw InvalidArgumentException("Auth token string cannot be empty")
+            }
+            if (endpoint.isBlank()) {
+                throw InvalidArgumentException("Endpoint string cannot be empty")
+            }
+
+            if (isBase64EncodedToken(apiKey)) {
+                throw InvalidArgumentException(
+                    "Global API key appears to be a V1 or legacy token. " +
+                    "Please use CredentialProvider.fromString() instead of globalKeyFromString()"
+                )
+            }
+            return CredentialProvider(
+                controlEndpoint = "control.$endpoint",
+                cacheEndpoint = "cache.$endpoint",
+                apiKey = apiKey
+            )
+        }
+
+        /**
+         * Creates a [CredentialProvider] using a global API key from an environment variable.
+         * @param envVar The name of the environment variable containing the global API key.
+         * @param endpoint The endpoint base domain (e.g., "cell-1-us-east-1.prod.a.momentohq.com").
+         */
+        public fun globalKeyFromEnvVar(
+            envVar: String, endpoint: String
+        ): CredentialProvider {
+            if (envVar.isBlank()) {
+                throw InvalidArgumentException("Env var name cannot be empty")
+            }
+            if (endpoint.isBlank()) {
+                throw InvalidArgumentException("Endpoint string cannot be empty")
+            }
+            
+            val apiKey = System.getenv(envVar)
+            if (apiKey.isNullOrBlank()) {
+                throw InvalidArgumentException("Env var $envVar must be set")
+            }
+
+            if (isBase64EncodedToken(apiKey)) {
+                throw InvalidArgumentException(
+                    "Global API key appears to be a V1 or legacy token. " +
+                    "Please use CredentialProvider.fromString() instead of globalKeyFromString()"
+                )
+            }
+            
+            return globalKeyFromString(apiKey, endpoint)
+        }
+
         /**
          * Creates a [CredentialProvider] from a Momento API key stored in an environment variable.
          * @param envVar The name of the environment variable containing the Momento API key.

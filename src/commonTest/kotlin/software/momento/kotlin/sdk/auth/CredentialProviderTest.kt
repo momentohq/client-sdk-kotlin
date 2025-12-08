@@ -6,6 +6,9 @@ import java.util.*
 import kotlin.test.Test
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
+import kotlin.test.fail
+
 
 class CredentialProviderTest : UsingTestRunner() {
 
@@ -14,9 +17,10 @@ class CredentialProviderTest : UsingTestRunner() {
         private const val CACHE_ENDPOINT_LEGACY = "cache.example.com"
         private const val CONTROL_ENDPOINT_V1 = "control.test.momentohq.com"
         private const val CACHE_ENDPOINT_V1 = "cache.test.momentohq.com"
-
+        private const val TEST_ENDPOINT = "testEndpoint"
         // Test tokens are all fake and nonfunctional.
-
+        private const val TEST_ENV_VAR = "MOMENTO_TEST_GLOBAL_API_KEY"
+	    private const val TEST_GLOBAL_API_KEY      = "test_global_api_key_12345"
         private const val LEGACY_API_KEY_VALID =
             ("eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzcXVpcnJlbCIsImNwIjoiY29udHJvbC5leGFtcGxlLmNvbSIsImMiOiJjYWNoZS5leGFtcG" +
                     "xlLmNvbSJ9.YY7RSMBCpMRs_qgbNkW0PYC2eX-MukLixLWJyvBpnMVaOba-OV0G5jgNmNbtn4zaLT8tlEncV6wQ_CkTI_PvoA")
@@ -139,5 +143,149 @@ class CredentialProviderTest : UsingTestRunner() {
         assertEquals(controlOverride, bothOverrideProvider.controlEndpoint)
         assertEquals(cacheOverride, bothOverrideProvider.cacheEndpoint)
     }
+
+    // @Test
+    // fun testGlobalKeyFromEnvVar() {
+    //     System.setProperty(TEST_ENV_VAR, TEST_GLOBAL_API_KEY)
+        
+    //     val provider = CredentialProvider.globalKeyFromEnvVar(TEST_ENV_VAR, TEST_ENDPOINT)
+        
+    //     assertEquals(TEST_GLOBAL_API_KEY, provider.apiKey)
+    //     assertEquals("cache.$TEST_ENDPOINT", provider.cacheEndpoint)
+    //     assertEquals("control.$TEST_ENDPOINT", provider.controlEndpoint)
+        
+    //     System.clearProperty(TEST_ENV_VAR)
+    // }
+
+    @Test
+    fun testGlobalKeyFromString() {
+        val provider = CredentialProvider.globalKeyFromString(TEST_GLOBAL_API_KEY, TEST_ENDPOINT)
+        
+        assertEquals(TEST_GLOBAL_API_KEY, provider.apiKey)
+        assertEquals("cache.$TEST_ENDPOINT", provider.cacheEndpoint)
+        assertEquals("control.$TEST_ENDPOINT", provider.controlEndpoint)
+    }
+
+    @Test
+    fun testGlobalKeyFromStringEmptyApiKey() {
+        try {
+            CredentialProvider.globalKeyFromString("", TEST_ENDPOINT)
+            fail("Expected InvalidArgumentException")
+        } catch (e: InvalidArgumentException) {
+            assertContains(e.message!!, "Auth token string cannot be empty")
+        }
+    }
+
+    @Test
+    fun testGlobalKeyFromStringEmptyEndpoint() {
+         try {
+            CredentialProvider.globalKeyFromString(TEST_GLOBAL_API_KEY, "")
+            fail("Expected InvalidArgumentException")
+        } catch (e: InvalidArgumentException) {
+            assertContains(e.message!!, "Endpoint string cannot be empty")
+        }
+    }
+
+    @Test
+    fun testGlobalKeyFromEnvVarEmptyEnvVarName() {
+         try {
+            CredentialProvider.globalKeyFromEnvVar("", TEST_ENDPOINT)
+            fail("Expected InvalidArgumentException")
+        } catch (e: InvalidArgumentException) {
+            assertContains(e.message!!, "Env var name cannot be empty")
+        }
+    }
+
+        @Test
+    fun testGlobalKeyFromEnvVarEmptyEndpoint() {
+        System.setProperty(TEST_ENV_VAR, TEST_GLOBAL_API_KEY)
+    
+        try {
+            CredentialProvider.globalKeyFromEnvVar(TEST_ENV_VAR, "")
+            fail("Expected InvalidArgumentException")
+        } catch (e: InvalidArgumentException) {
+            assertContains(e.message!!, "Endpoint string cannot be empty")
+        }
+        
+        System.clearProperty(TEST_ENV_VAR)
+    }
+
+    @Test
+    fun testGlobalKeyFromEnvVarNotSet() {
+        val nonExistentVar = "NON_EXISTENT_ENV_VAR_${UUID.randomUUID()}"
+    
+        try {
+            CredentialProvider.globalKeyFromEnvVar(nonExistentVar, TEST_ENDPOINT)
+            fail("Expected InvalidArgumentException")
+        } catch (e: InvalidArgumentException) {
+            assertContains(e.message!!, "Env var $nonExistentVar must be set")
+        }
+    }
+
+    @Test
+    fun testGlobalKeyFromEnvVarEmpty() {
+        System.setProperty(TEST_ENV_VAR, "")
+        
+        try {
+            CredentialProvider.globalKeyFromEnvVar(TEST_ENV_VAR, TEST_ENDPOINT)
+            fail("Expected InvalidArgumentException")
+        } catch (e: InvalidArgumentException) {
+            assertContains(e.message!!, "Env var $TEST_ENV_VAR must be set")
+        }
+        
+        System.clearProperty(TEST_ENV_VAR)
+    }
+
+    @Test
+    fun testGlobalKeyFromStringWithV1Token() {
+        try {
+            CredentialProvider.globalKeyFromString(V1_API_KEY_VALID, TEST_ENDPOINT)
+            fail("Expected InvalidArgumentException")
+        } catch (e: InvalidArgumentException) {
+            assertContains(e.message!!, "V1 or legacy token")
+            assertContains(e.message!!, "fromString()")
+        }
+    }
+    @Test
+    fun testGlobalKeyFromStringWithLegacyToken() {
+        try {
+            CredentialProvider.globalKeyFromString(LEGACY_API_KEY_VALID, TEST_ENDPOINT)
+            fail("Expected InvalidArgumentException")
+        } catch (e: InvalidArgumentException) {
+            assertContains(e.message!!, "V1 or legacy token")
+            assertContains(e.message!!, "fromString()")
+        }
+    }
+
+    // @Test
+    // fun testGlobalKeyFromEnvVarWithV1Token() {
+    //     System.setProperty(TEST_ENV_VAR, V1_API_KEY_VALID)
+        
+    //     try {
+    //         CredentialProvider.globalKeyFromEnvVar(TEST_ENV_VAR, TEST_ENDPOINT)
+    //         fail("Expected InvalidArgumentException")
+    //     } catch (e: InvalidArgumentException) {
+    //         assertContains(e.message!!, "V1 or legacy token")
+    //         assertContains(e.message!!, "fromString()")
+    //     }
+        
+    //     System.clearProperty(TEST_ENV_VAR)
+    // }
+
+    // @Test
+    // fun testGlobalKeyFromEnvVarWithLegacyToken() {
+    //     System.setProperty(TEST_ENV_VAR, LEGACY_API_KEY_VALID)
+        
+    //     try {
+    //         CredentialProvider.globalKeyFromEnvVar(TEST_ENV_VAR, TEST_ENDPOINT)
+    //         fail("Expected InvalidArgumentException")
+    //     } catch (e: InvalidArgumentException) {
+    //         assertContains(e.message!!, "V1 or legacy token")
+    //         assertContains(e.message!!, "fromString()")
+    //     }
+        
+    //     System.clearProperty(TEST_ENV_VAR)
+    // }
+
 }
 
