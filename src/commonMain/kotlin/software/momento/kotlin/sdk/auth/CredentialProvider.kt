@@ -20,12 +20,13 @@ public data class CredentialProvider(
          * @param controlHost An optional override for the endpoint used for control operations.
          * @param cacheHost An optional override for the endpoint used for cache operations.
          */
+        @Deprecated(message = "Use fromApiKeyV2() instead")
         public fun fromString(
             apiKey: String, controlHost: String? = null, cacheHost: String? = null
         ): CredentialProvider {
-            if (isGlobalApiKey(apiKey)) {
-                throw InvalidArgumentException("Received a global API key. Are you using the correct key? Or did you mean to use"
-              + "`globalKeyFromString()` or `globalKeyFromEnvVar()` instead?")
+            if (isV2ApiKey(apiKey)) {
+                throw InvalidArgumentException("Received a V2 API key. Are you using the correct key? Or did you mean to use"
+              + "`fromApiKeyV2()` or `fromEnvVarV2()` instead?")
             }
             try {
                 val provider = try {
@@ -42,7 +43,7 @@ public data class CredentialProvider(
             }
         }
 
-        private fun isGlobalApiKey(authToken: String): Boolean {
+        private fun isV2ApiKey(authToken: String): Boolean {
             return try {
                 // JWT tokens have 3 parts separated by dots
                 if (authToken.count { it == '.' } != 2) {
@@ -57,7 +58,7 @@ public data class CredentialProvider(
                 
                 val payload = parts[1].decodeBase64() ?: return false
                 
-                // Check if it contains "t":"g" (global key indicator)
+                // Check if it contains "t":"g" (V2 key indicator)
                 return payload.contains("\"t\"") && payload.contains("\"g\"")
             } catch (e: Exception) {
                 false
@@ -65,8 +66,8 @@ public data class CredentialProvider(
         }
 
         private fun isBase64EncodedToken(apiKey: String): Boolean {
-            // Check if it's a global JWT (which is allowed)
-            if (isGlobalApiKey(apiKey)) {
+            // Check if it's a V2 JWT (which is allowed)
+            if (isV2ApiKey(apiKey)) {
                 return false
             }
             
@@ -84,11 +85,11 @@ public data class CredentialProvider(
         }
 
         /**
-         * Creates a [CredentialProvider] using a global API key and endpoint.
-         * @param apiKey The global API key to use for authentication.
+         * Creates a [CredentialProvider] using a V2 API key and endpoint.
+         * @param apiKey The V2 API key to use for authentication.
          * @param endpoint The endpoint base domain (e.g., "cell-1-us-east-1.prod.a.momentohq.com").
          */
-        public fun globalKeyFromString(
+        public fun fromApiKeyV2(
             apiKey: String, endpoint: String
         ): CredentialProvider {
             if (apiKey.isBlank()) {
@@ -100,7 +101,7 @@ public data class CredentialProvider(
 
             if (isBase64EncodedToken(apiKey)) {
                 throw InvalidArgumentException(
-                    "Global API key appears to be a V1 or legacy token. Are you using the correct key? Or did you mean to use"
+                    "V2 API key appears to be a V1 or legacy token. Are you using the correct key? Or did you mean to use"
                         + "`fromString()` or `fromEnvVar()` instead?"
                 )
             }
@@ -112,11 +113,11 @@ public data class CredentialProvider(
         }
 
         /**
-         * Creates a [CredentialProvider] using a global API key from an environment variable.
-         * @param envVar The name of the environment variable containing the global API key.
+         * Creates a [CredentialProvider] using a V2 API key from an environment variable.
+         * @param envVar The name of the environment variable containing the V2 API key.
          * @param endpoint The endpoint base domain (e.g., "cell-1-us-east-1.prod.a.momentohq.com").
          */
-        public fun globalKeyFromEnvVar(
+        public fun fromEnvVarV2(
             envVar: String, endpoint: String
         ): CredentialProvider {
             if (envVar.isBlank()) {
@@ -131,7 +132,19 @@ public data class CredentialProvider(
                 throw InvalidArgumentException("Env var $envVar must be set")
             }
             
-            return globalKeyFromString(apiKey, endpoint)
+            return fromApiKeyV2(apiKey, endpoint)
+        }
+
+        /**
+         * Creates a [CredentialProvider] from a disposable token.
+         * @param disposableToken The disposable token to use for authentication.
+         * @param controlHost An optional override for the endpoint used for control operations.
+         * @param cacheHost An optional override for the endpoint used for cache operations.
+         */
+        public fun fromDisposableToken(
+            disposableToken: String, controlHost: String? = null, cacheHost: String? = null
+        ): CredentialProvider {
+            return fromString(disposableToken, controlHost, cacheHost);
         }
 
         /**
@@ -140,6 +153,7 @@ public data class CredentialProvider(
          * @param controlHost An optional override for the endpoint used for control operations.
          * @param cacheHost An optional override for the endpoint used for cache operations.
          */
+        @Deprecated(message = "Use fromEnvVarV2() instead")
         public fun fromEnvVar(
             envVar: String, controlHost: String? = null, cacheHost: String? = null
         ): CredentialProvider {
