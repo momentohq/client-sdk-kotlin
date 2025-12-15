@@ -65,21 +65,11 @@ public data class CredentialProvider(
             }
         }
 
-        private fun isBase64EncodedToken(apiKey: String): Boolean {
-            // Check if it's a V2 JWT (which is allowed)
-            if (isV2ApiKey(apiKey)) {
-                return false
-            }
-            
-            // Legacy tokens have format: xxx.yyy.zzz (JWT format)
-            if (apiKey.count { it == '.' } == 2) {
-                return true
-            }
-            
-            // Check if it's base64 encoded (V1 tokens are base64 encoded)
+        private fun isBase64Encoded(apiKey: String): Boolean {
             return try {
-                apiKey.decodeBase64() != null
-            } catch (e: Exception) {
+                 apiKey.decodeBase64()
+                true
+            } catch (e: IllegalArgumentException) {
                 false
             }
         }
@@ -99,7 +89,7 @@ public data class CredentialProvider(
                 throw InvalidArgumentException("Endpoint string cannot be empty")
             }
 
-            if (isBase64EncodedToken(apiKey)) {
+            if (!isV2ApiKey(apiKey)) {
                 throw InvalidArgumentException(
                     "V2 API key appears to be a V1 or legacy token. Are you using the correct key? Or did you mean to use"
                         + "`fromString()` or `fromEnvVar()` instead?"
