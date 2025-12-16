@@ -18,11 +18,10 @@ class CredentialProviderTest : UsingTestRunner() {
         private const val CONTROL_ENDPOINT_V1 = "control.test.momentohq.com"
         private const val CACHE_ENDPOINT_V1 = "cache.test.momentohq.com"
         private const val TEST_ENDPOINT = "testEndpoint"
-        private const val TEST_ENDPOINT_ENV_VAR = "testEndpoint"
+        private const val TEST_ENDPOINT_ENV_VAR = "MOMENTO_ENDPOINT"
         // Test tokens are all fake and nonfunctional.
-        private const val TEST_ENV_VAR = "MOMENTO_TEST_V2_ENV_VAR"
-	    private const val TEST_V2_API_KEY      = "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ0IjoiZyJ9.LloWc3qLRkBm_djlOjXE8wNSENqOay17xHLJR5XIr0cwkyhhh8w_oBaiQDktBkOvh-wKLQGUKavSQuOwXEb2_g"
-        private const val LEGACY_API_KEY_VALID =
+        private const val TEST_ENV_VAR = "MOMENTO_API_KEY"
+	    private const val TEST_V2_API_KEY =   "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ0IjoiZyIsImp0aSI6InNvbWUtaWQifQ.GMr9nA6HE0ttB6llXct_2Sg5-fOKGFbJCdACZFgNbN1fhT6OPg_hVc8ThGzBrWC_RlsBpLA1nzqK3SOJDXYxAw"
             ("eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzcXVpcnJlbCIsImNwIjoiY29udHJvbC5leGFtcGxlLmNvbSIsImMiOiJjYWNoZS5leGFtcG" +
                     "xlLmNvbSJ9.YY7RSMBCpMRs_qgbNkW0PYC2eX-MukLixLWJyvBpnMVaOba-OV0G5jgNmNbtn4zaLT8tlEncV6wQ_CkTI_PvoA")
         private const val V1_API_KEY_VALID =
@@ -279,36 +278,3 @@ class CredentialProviderTest : UsingTestRunner() {
             assertContains(e.message!!, "fromApiKeyV2()")
         }
     }
-
-    // @Test
-    // fun testfromEnvVarV2WithV1Token() {
-    //     System.setProperty(TEST_ENV_VAR, V1_API_KEY_VALID)
-        
-    //     try {
-    //         CredentialProvider.fromEnvVarV2(TEST_ENV_VAR, TEST_ENDPOINT)
-    //         fail("Expected InvalidArgumentException")
-    //     } catch (e: InvalidArgumentException) {
-    //         assertContains(e.message!!, "V1 or legacy token")
-    //         assertContains(e.message!!, "fromString()")
-    //     }
-        
-    //     System.clearProperty(TEST_ENV_VAR)
-    // }
-
-    // @Test
-    // fun testfromEnvVarV2WithLegacyToken() {
-    //     System.setProperty(TEST_ENV_VAR, LEGACY_API_KEY_VALID)
-        
-    //     try {
-    //         CredentialProvider.fromEnvVarV2(TEST_ENV_VAR, TEST_ENDPOINT)
-    //         fail("Expected InvalidArgumentException")
-    //     } catch (e: InvalidArgumentException) {
-    //         assertContains(e.message!!, "V1 or legacy token")
-    //         assertContains(e.message!!, "fromString()")
-    //     }
-        
-    //     System.clearProperty(TEST_ENV_VAR)
-    // }
-
-}
-

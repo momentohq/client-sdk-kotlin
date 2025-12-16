@@ -91,7 +91,7 @@ public data class CredentialProvider(
 
             if (!isV2ApiKey(apiKey)) {
                 throw InvalidArgumentException(
-                    "V2 API key appears to be a V1 or legacy token. Are you using the correct key? Or did you mean to use"
+                    "Received an invalid V2 API key. Are you using the correct key? Or did you mean to use"
                         + "`fromString()` or `fromEnvVar()` instead?"
                 )
             }
@@ -108,7 +108,7 @@ public data class CredentialProvider(
          * @param endpoint The endpoint base domain (e.g., "cell-1-us-east-1.prod.a.momentohq.com").
          */
         public fun fromEnvVarV2(
-            envVar: String, endpoint: String
+            apiKeyEnvVar: String = "MOMENTO_API_KEY", endpointEnvVar: String = "MOMENTO_ENDPOINT"
         ): CredentialProvider {
             if (envVar.isBlank()) {
                 throw InvalidArgumentException("Env var name cannot be empty")
