@@ -22,6 +22,7 @@ class CredentialProviderTest : UsingTestRunner() {
         // Test tokens are all fake and nonfunctional.
         private const val TEST_ENV_VAR = "MOMENTO_API_KEY"
 	    private const val TEST_V2_API_KEY =   "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ0IjoiZyIsImp0aSI6InNvbWUtaWQifQ.GMr9nA6HE0ttB6llXct_2Sg5-fOKGFbJCdACZFgNbN1fhT6OPg_hVc8ThGzBrWC_RlsBpLA1nzqK3SOJDXYxAw"
+        private const val LEGACY_API_KEY_VALID =
             ("eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzcXVpcnJlbCIsImNwIjoiY29udHJvbC5leGFtcGxlLmNvbSIsImMiOiJjYWNoZS5leGFtcG" +
                     "xlLmNvbSJ9.YY7RSMBCpMRs_qgbNkW0PYC2eX-MukLixLWJyvBpnMVaOba-OV0G5jgNmNbtn4zaLT8tlEncV6wQ_CkTI_PvoA")
         private const val V1_API_KEY_VALID =
@@ -242,7 +243,7 @@ class CredentialProviderTest : UsingTestRunner() {
             CredentialProvider.fromApiKeyV2(V1_API_KEY_VALID, TEST_ENDPOINT)
             fail("Expected InvalidArgumentException")
         } catch (e: InvalidArgumentException) {
-            assertContains(e.message!!, "V1 or legacy token")
+            assertContains(e.message!!, "Received an invalid V2 API key")
             assertContains(e.message!!, "fromString()")
         }
     }
@@ -252,7 +253,7 @@ class CredentialProviderTest : UsingTestRunner() {
             CredentialProvider.fromApiKeyV2(LEGACY_API_KEY_VALID, TEST_ENDPOINT)
             fail("Expected InvalidArgumentException")
         } catch (e: InvalidArgumentException) {
-            assertContains(e.message!!, "V1 or legacy token")
+            assertContains(e.message!!, "Received an invalid V2 API key")
             assertContains(e.message!!, "fromString()")
         }
     }
@@ -278,3 +279,4 @@ class CredentialProviderTest : UsingTestRunner() {
             assertContains(e.message!!, "fromApiKeyV2()")
         }
     }
+}

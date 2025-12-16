@@ -104,25 +104,25 @@ public data class CredentialProvider(
 
         /**
          * Creates a [CredentialProvider] using a V2 API key from an environment variable.
-         * @param envVar The name of the environment variable containing the V2 API key.
-         * @param endpoint The endpoint base domain (e.g., "cell-1-us-east-1.prod.a.momentohq.com").
+         * @param apiKeyEnvVar The name of the environment variable containing the V2 API key.
+         * @param endpointEnvVar The endpoint base domain (e.g., "cell-1-us-east-1.prod.a.momentohq.com").
          */
         public fun fromEnvVarV2(
             apiKeyEnvVar: String = "MOMENTO_API_KEY", endpointEnvVar: String = "MOMENTO_ENDPOINT"
         ): CredentialProvider {
-            if (envVar.isBlank()) {
+            if (apiKeyEnvVar.isBlank()) {
                 throw InvalidArgumentException("Env var name cannot be empty")
             }
-            if (endpoint.isBlank()) {
+            if (endpointEnvVar.isBlank()) {
                 throw InvalidArgumentException("Endpoint string cannot be empty")
             }
             
-            val apiKey = System.getenv(envVar)
+            val apiKey = System.getenv(apiKeyEnvVar)
             if (apiKey.isNullOrBlank()) {
-                throw InvalidArgumentException("Env var $envVar must be set")
+                throw InvalidArgumentException("Env var $apiKeyEnvVar must be set")
             }
             
-            return fromApiKeyV2(apiKey, endpoint)
+            return fromApiKeyV2(apiKey, endpointEnvVar)
         }
 
         /**
