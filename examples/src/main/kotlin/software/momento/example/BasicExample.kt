@@ -18,7 +18,7 @@ fun main() = runBlocking {
     printStartBanner()
 
     CacheClient(
-        CredentialProvider.fromEnvVarV2(), Configurations.Laptop.latest, 60.seconds
+        CredentialProvider.fromEnvVar("MOMENTO_API_KEY"), Configurations.Laptop.latest, 60.seconds
     ).use { client ->
         println("Creating cache '$cacheName'")
         when (val response = client.createCache(cacheName)) {

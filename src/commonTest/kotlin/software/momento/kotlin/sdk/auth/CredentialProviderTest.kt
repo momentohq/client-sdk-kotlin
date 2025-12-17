@@ -145,19 +145,6 @@ class CredentialProviderTest : UsingTestRunner() {
         assertEquals(cacheOverride, bothOverrideProvider.cacheEndpoint)
     }
 
-    // @Test
-    // fun testfromEnvVarV2() {
-    //     System.setProperty(TEST_ENV_VAR, TEST_V2_API_KEY)
-        
-    //     val provider = CredentialProvider.fromEnvVarV2(TEST_ENV_VAR, TEST_ENDPOINT_ENV_VAR)
-        
-    //     assertEquals(TEST_V2_API_KEY, provider.apiKey)
-    //     assertEquals("cache.$TEST_ENDPOINT", provider.cacheEndpoint)
-    //     assertEquals("control.$TEST_ENDPOINT", provider.controlEndpoint)
-        
-    //     System.clearProperty(TEST_ENV_VAR)
-    // }
-
     @Test
     fun testfromApiKeyV2() {
         val provider = CredentialProvider.fromApiKeyV2(TEST_V2_API_KEY, TEST_ENDPOINT)
