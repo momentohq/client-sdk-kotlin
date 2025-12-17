@@ -20,7 +20,7 @@ class CredentialProviderTest : UsingTestRunner() {
         private const val TEST_ENDPOINT = "testEndpoint"
         private const val TEST_ENDPOINT_ENV_VAR = "MOMENTO_ENDPOINT"
         // Test tokens are all fake and nonfunctional.
-        private const val TEST_ENV_VAR = "MOMENTO_API_KEY"
+        private const val TEST_ENV_VAR = "MOMENTO_TEST_API_KEY"
 	    private const val TEST_V2_API_KEY =   "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ0IjoiZyIsImp0aSI6InNvbWUtaWQifQ.GMr9nA6HE0ttB6llXct_2Sg5-fOKGFbJCdACZFgNbN1fhT6OPg_hVc8ThGzBrWC_RlsBpLA1nzqK3SOJDXYxAw"
         private const val LEGACY_API_KEY_VALID =
             ("eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzcXVpcnJlbCIsImNwIjoiY29udHJvbC5leGFtcGxlLmNvbSIsImMiOiJjYWNoZS5leGFtcG" +
@@ -193,7 +193,7 @@ class CredentialProviderTest : UsingTestRunner() {
             CredentialProvider.fromEnvVarV2("", TEST_ENDPOINT_ENV_VAR)
             fail("Expected InvalidArgumentException")
         } catch (e: InvalidArgumentException) {
-            assertContains(e.message!!, "Env var name cannot be empty")
+            assertContains(e.message!!, "ApiKey env var name cannot be empty")
         }
     }
 
@@ -205,7 +205,7 @@ class CredentialProviderTest : UsingTestRunner() {
             CredentialProvider.fromEnvVarV2(TEST_ENV_VAR, "")
             fail("Expected InvalidArgumentException")
         } catch (e: InvalidArgumentException) {
-            assertContains(e.message!!, "Endpoint string cannot be empty")
+            assertContains(e.message!!, "Endpoint env var name cannot be empty")
         }
         
         System.clearProperty(TEST_ENV_VAR)

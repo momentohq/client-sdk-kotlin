@@ -3,6 +3,8 @@ package software.momento.kotlin.sdk.auth
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
 import software.momento.kotlin.sdk.exceptions.InvalidArgumentException
 import software.momento.kotlin.sdk.internal.utils.decodeBase64
 
@@ -59,7 +61,8 @@ public data class CredentialProvider(
                 val payload = parts[1].decodeBase64() ?: return false
                 
                 // Check if it contains "t":"g" (V2 key indicator)
-                return payload.contains("\"t\"") && payload.contains("\"g\"")
+                val json = Json.parseToJsonElement(payload).jsonObject
+                return json["t"]?.jsonPrimitive?.content == "g"
             } catch (e: Exception) {
                 false
             }
@@ -77,7 +80,7 @@ public data class CredentialProvider(
         /**
          * Creates a [CredentialProvider] using a V2 API key and endpoint.
          * @param apiKey The V2 API key to use for authentication.
-         * @param endpoint The endpoint base domain (e.g., "cell-1-us-east-1.prod.a.momentohq.com").
+         * @param endpoint The endpoint base domain (e.g., "cell-1-us-east-1-1.prod.a.momentohq.com").
          */
         public fun fromApiKeyV2(
             apiKey: String, endpoint: String
@@ -105,24 +108,27 @@ public data class CredentialProvider(
         /**
          * Creates a [CredentialProvider] using a V2 API key from an environment variable.
          * @param apiKeyEnvVar The name of the environment variable containing the V2 API key.
-         * @param endpointEnvVar The endpoint base domain (e.g., "cell-1-us-east-1.prod.a.momentohq.com").
+         * @param endpointEnvVar The name of the environment variable containing the endpoint.
          */
         public fun fromEnvVarV2(
             apiKeyEnvVar: String = "MOMENTO_API_KEY", endpointEnvVar: String = "MOMENTO_ENDPOINT"
         ): CredentialProvider {
             if (apiKeyEnvVar.isBlank()) {
-                throw InvalidArgumentException("Env var name cannot be empty")
+                throw InvalidArgumentException("ApiKey env var name cannot be empty")
             }
             if (endpointEnvVar.isBlank()) {
-                throw InvalidArgumentException("Endpoint string cannot be empty")
+                throw InvalidArgumentException("Endpoint env var name cannot be empty")
             }
             
             val apiKey = System.getenv(apiKeyEnvVar)
             if (apiKey.isNullOrBlank()) {
                 throw InvalidArgumentException("Env var $apiKeyEnvVar must be set")
             }
-            
-            return fromApiKeyV2(apiKey, endpointEnvVar)
+            val endpoint = System.getenv(endpointEnvVar)
+            if (endpoint.isNullOrBlank()) {
+                throw InvalidArgumentException("Env var $endpointEnvVar must be set")
+            }          
+            return fromApiKeyV2(apiKey, endpoint)
         }
 
         /**
