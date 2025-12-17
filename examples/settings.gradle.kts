@@ -10,3 +10,10 @@ plugins {
 }
 
 rootProject.name = "examples"
+
+// Uncomment this below section to test examples against local sdk changes
+// includeBuild("..") {
+//    dependencySubstitution {
+//        substitute(module("software.momento.kotlin:sdk"))
+//    }
+// }
