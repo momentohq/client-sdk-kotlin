@@ -26,7 +26,9 @@ android {
     defaultConfig {
         minSdk = 23
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        testInstrumentationRunnerArguments["MomentoApiKey"] = System.getenv("MOMENTO_API_KEY") ?: "noApiKeySet"
+        testInstrumentationRunnerArguments["V1ApiKey"] = System.getenv("V1_API_KEY") ?: "noV1ApiKeySet"
+        testInstrumentationRunnerArguments["MomentoApiKey"] = System.getenv("MOMENTO_API_KEY") ?: "noV2ApiKeySet"
+        testInstrumentationRunnerArguments["MomentoEndpoint"] = System.getenv("MOMENTO_ENDPOINT") ?: "noEndpointSet"
         testInstrumentationRunnerArguments["TestCacheName"] = System.getenv("TEST_CACHE_NAME") ?: "test-android-cache"
     }
 

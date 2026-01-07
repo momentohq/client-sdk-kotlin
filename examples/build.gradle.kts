@@ -10,7 +10,7 @@ repositories {
 }
 
 dependencies {
-    implementation("software.momento.kotlin:sdk:0.2.0")
+    implementation("software.momento.kotlin:sdk:0.4.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
 }
 

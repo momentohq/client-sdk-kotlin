@@ -19,7 +19,7 @@ open class BaseJvmTestClass {
         @BeforeClass
         fun createCacheClient() {
             cacheClient = CacheClient(
-                credentialProvider = CredentialProvider.fromEnvVar("MOMENTO_API_KEY"),
+                credentialProvider = CredentialProvider.fromEnvVar("V1_API_KEY"),
                 configuration = Configurations.Laptop.latest,
                 itemDefaultTtl = 60.seconds
             )

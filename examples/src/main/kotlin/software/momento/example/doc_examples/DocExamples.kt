@@ -26,12 +26,37 @@ const val FAKE_V1_API_KEY =
             "ZEVCbGVHRnRjR3hsTG1OdmJTSjkuOEl5OHE4NExzci1EM1lDb19IUDRkLXhqSGRUOFVDSXV2QVljeGhGTXl6OCIsICJlbmRwb2ludCI6" +
             "ICJ0ZXN0Lm1vbWVudG9ocS5jb20ifQo="
 
+const val FAKE_V2_API_KEY = "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ0IjoiZyIsImp0aSI6InNvbWUtaWQifQ.GMr9nA6HE0ttB6llXct_2Sg5-fOKGFbJCdACZFgNbN1fhT6OPg_hVc8ThGzBrWC_RlsBpLA1nzqK3SOJDXYxAw"
+
 suspend fun retrieveAuthTokenFromYourSecretsManager(): String {
     return FAKE_V1_API_KEY
 }
 
+suspend fun retrieveApiKeyV2FromYourSecretsManager(): String {
+    return FAKE_V2_API_KEY
+}
+
+suspend fun example_API_CredentialProviderFromEnvVarV2() {
+    // Looks for MOMENTO_API_KEY and MOMENTO_ENDPOINT environment variables by default
+    CredentialProvider.fromEnvVarV2()
+
+    // To specify custom environment variable names:
+    CredentialProvider.fromEnvVarV2("MY_MOMENTO_API_KEY", "MY_MOMENTO_ENDPOINT")
+}
+
+suspend fun example_API_CredentialProviderFromApiKeyV2() {
+    val apiKey = retrieveApiKeyV2FromYourSecretsManager()
+    val endpoint = "cell-4-us-west-2-1.prod.a.momentohq.com"
+    CredentialProvider.fromApiKeyV2(apiKey, endpoint)
+}
+
+suspend fun example_API_CredentialProviderFromDisposableToken() {
+    val authToken = retrieveAuthTokenFromYourSecretsManager()
+    CredentialProvider.fromDisposableToken(authToken)
+}
+
 suspend fun example_API_CredentialProviderFromEnvVar() {
-    CredentialProvider.fromEnvVar("MOMENTO_API_KEY")
+    CredentialProvider.fromEnvVar("V1_API_KEY")
 }
 
 suspend fun example_API_CredentialProviderFromString() {
@@ -53,7 +78,7 @@ suspend fun example_API_ConfigurationLowLatency() {
 
 suspend fun example_API_InstantiateCacheClient() {
     CacheClient(
-        CredentialProvider.fromEnvVar("MOMENTO_API_KEY"), Configurations.Laptop.latest, 60.seconds
+        CredentialProvider.fromEnvVarV2(), Configurations.Laptop.latest, 60.seconds
     ).use { cacheClient ->
         //...
     }
@@ -145,7 +170,7 @@ suspend fun example_API_Delete(cacheClient: CacheClient) {
 
 suspend fun example_API_InstantiateTopicClient() {
     TopicClient(
-        CredentialProvider.fromEnvVar("MOMENTO_API_KEY"), TopicConfigurations.Laptop.latest
+        CredentialProvider.fromEnvVarV2(), TopicConfigurations.Laptop.latest
     ).use { topicClient ->
         //...
     }
@@ -195,7 +220,7 @@ fun main() = runBlocking {
     example_API_InstantiateCacheClient()
 
     CacheClient(
-        CredentialProvider.fromEnvVar("MOMENTO_API_KEY"), Configurations.Laptop.latest, 60.seconds
+        CredentialProvider.fromEnvVarV2(), Configurations.Laptop.latest, 60.seconds
     ).use { cacheClient ->
         try {
             example_API_ErrorHandlingHitMiss(cacheClient)
@@ -222,7 +247,7 @@ fun main() = runBlocking {
 
     example_API_InstantiateTopicClient()
     TopicClient(
-        CredentialProvider.fromEnvVar("MOMENTO_API_KEY"), TopicConfigurations.Laptop.latest
+        CredentialProvider.fromEnvVarV2(), TopicConfigurations.Laptop.latest
     ).use { topicClient ->
         example_API_TopicSubscribe(topicClient)
         example_API_TopicPublish(topicClient)
