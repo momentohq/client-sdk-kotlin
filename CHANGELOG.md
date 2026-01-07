@@ -1,5 +1,27 @@
 # Changelog
 
+## [0.4.0](https://github.com/momentohq/client-sdk-kotlin/compare/v0.3.0...v0.4.0) (2025-12-18)
+
+
+### Features
+
+* new credential provider methods for accepting global api keys ([c550aa1](https://github.com/momentohq/client-sdk-kotlin/commit/c550aa1da14ff8bf43f6fa173d1d0632f83d4e62))
+* new credential provider methods for accepting global api keys ([c550aa1](https://github.com/momentohq/client-sdk-kotlin/commit/c550aa1da14ff8bf43f6fa173d1d0632f83d4e62))
+* new credential provider methods for accepting global api keys ([626270d](https://github.com/momentohq/client-sdk-kotlin/commit/626270d15c4e89a9e47ee91486889228dbb484f8))
+
+
+### Bug Fixes
+
+* disable dynamic DNS service config ([bf740dc](https://github.com/momentohq/client-sdk-kotlin/commit/bf740dc9da21ce6b6d303756c3b3cca43463fc46))
+
+
+### Miscellaneous
+
+* **main:** release 0.3.1-SNAPSHOT ([fb10b71](https://github.com/momentohq/client-sdk-kotlin/commit/fb10b714782fee82fd1b34c3b646ed053648665a))
+* replace OSSRH endpoint with Sonatype Central endpoint ([84a6559](https://github.com/momentohq/client-sdk-kotlin/commit/84a6559372e6cefad4d0af8d84681bb35546ac79))
+* update jvm toolchain in examples setup and be able to test local sdk changes ([916449a](https://github.com/momentohq/client-sdk-kotlin/commit/916449af53501b50df968ff6c8859f9a6a2eecb2))
+* update jvm toolchain in examples setup and be able to test local sdk changes ([47e9335](https://github.com/momentohq/client-sdk-kotlin/commit/47e93352956b4b91a6d21b1aadfbed507d3380e3))
+
 ## [0.3.0](https://github.com/momentohq/client-sdk-kotlin/compare/v0.2.1...v0.3.0) (2024-11-13)
 
 
