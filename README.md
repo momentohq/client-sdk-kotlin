@@ -27,7 +27,7 @@ The Kotlin SDK is available on Maven Central:
 
 ```kotlin
 dependencies {
-    implementation("software.momento.kotlin:sdk:0.1.3")
+    implementation("software.momento.kotlin:sdk:0.3.0")
 }
 ```
 
@@ -37,7 +37,7 @@ dependencies {
 <dependency>
     <groupId>software.momento.kotlin</groupId>
     <artifactId>sdk</artifactId>
-    <version>0.1.3</version>
+    <version>0.3.0</version>
 </dependency>
 ```
 
@@ -55,7 +55,7 @@ import kotlin.time.Duration.Companion.seconds
 
 fun main() = runBlocking {
     CacheClient(
-        CredentialProvider.fromEnvVar("MOMENTO_API_KEY"),
+        CredentialProvider.fromEnvVarV2(),
         Configurations.Laptop.latest,
         60.seconds
     ).use { client ->
