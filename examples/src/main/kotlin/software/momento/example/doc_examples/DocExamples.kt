@@ -37,11 +37,11 @@ suspend fun retrieveApiKeyV2FromYourSecretsManager(): String {
 }
 
 suspend fun example_API_CredentialProviderFromEnvVarV2() {
-    // Looks for MOMENTO_API_KEY and MOMENTO_ENDPOINT environment variables by default
-    CredentialProvider.fromEnvVarV2()
+    CredentialProvider.fromEnvVarV2("MOMENTO_API_KEY", "MOMENTO_ENDPOINT")
+}
 
-    // To specify custom environment variable names:
-    CredentialProvider.fromEnvVarV2("MY_MOMENTO_API_KEY", "MY_MOMENTO_ENDPOINT")
+suspend fun example_API_CredentialProviderFromEnvVarV2Default() {
+    CredentialProvider.fromEnvVarV2()
 }
 
 suspend fun example_API_CredentialProviderFromApiKeyV2() {
@@ -213,6 +213,11 @@ suspend fun example_API_TopicPublish(topicClient: TopicClient) {
 fun main() = runBlocking {
     example_API_CredentialProviderFromEnvVar()
     example_API_CredentialProviderFromString()
+    example_API_CredentialProviderFromEnvVarV2Default()
+    example_API_CredentialProviderFromEnvVarV2()
+    example_API_CredentialProviderFromApiKeyV2()
+    example_API_CredentialProviderFromDisposableToken()
+
     example_API_ConfigurationLaptop()
     example_API_ConfigurationInRegionLatest()
     example_API_ConfigurationLowLatency()
