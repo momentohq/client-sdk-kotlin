@@ -18,6 +18,7 @@ import org.junit.AfterClass
 import org.junit.BeforeClass
 import org.junit.Test
 import org.junit.runner.RunWith
+import software.momento.kotlin.sdk.auth.CredentialProvider
 import software.momento.kotlin.sdk.config.TopicConfigurations
 import software.momento.kotlin.sdk.exceptions.InvalidArgumentException
 import software.momento.kotlin.sdk.internal.InternalTopicClient
