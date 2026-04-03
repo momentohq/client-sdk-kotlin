@@ -65,7 +65,7 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 implementation(kotlin("stdlib-jdk8"))
-                implementation("software.momento.kotlin:client-protos-jvm:0.119.2")
+                implementation("software.momento.kotlin:client-protos-jvm:0.128.2")
                 runtimeOnly("io.grpc:grpc-netty:1.57.2")
             }
         }
@@ -76,7 +76,7 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
-                implementation("software.momento.kotlin:client-protos-android:0.119.2")
+                implementation("software.momento.kotlin:client-protos-android:0.128.2")
                 runtimeOnly("io.grpc:grpc-okhttp:1.57.2")
             }
         }

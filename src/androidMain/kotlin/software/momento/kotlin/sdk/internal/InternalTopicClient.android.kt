@@ -197,6 +197,15 @@ internal actual class InternalTopicClient actual constructor(
                 }
             }
 
+            _SubscriptionItem.KindCase.DISCONTINUITY -> {
+                val d = subscriptionItem.discontinuity
+                TopicMessage.Discontinuity(
+                    lastTopicSequence = d.lastTopicSequence,
+                    newTopicSequence = d.newTopicSequence,
+                    newSequencePage = d.newSequencePage
+                )
+            }
+
             else -> null
         }
 
