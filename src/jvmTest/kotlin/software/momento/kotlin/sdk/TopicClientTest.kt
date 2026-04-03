@@ -191,15 +191,9 @@ class TopicClientTest : BaseJvmTestClass() {
     fun subscribeWithHighSequenceNumberReceivesDiscontinuity() = runBlocking {
         val topicName = "discontinuityTest"
 
-        // Publish messages to establish a sequence number on the topic
-        repeat(3) {
-            val response = topicClient.publish(cacheName, topicName, "setup-message")
-            assert(response is TopicPublishResponse.Success)
-        }
-
         // Subscribe with a sequence number far in the future to force a discontinuity
         val internalClient = InternalTopicClient(
-            CredentialProvider.fromEnvVar("V1_API_KEY"),
+            CredentialProvider.fromEnvVarV2(),
             TopicConfigurations.Laptop.latest
         )
 

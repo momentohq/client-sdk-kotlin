@@ -2,6 +2,7 @@ package software.momento.kotlin.sdk
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
+import androidx.test.platform.app.InstrumentationRegistry
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
@@ -195,15 +196,13 @@ class TopicClientTest : BaseAndroidTestClass() {
     fun subscribeWithHighSequenceNumberReceivesDiscontinuity() = runBlocking {
         val topicName = "discontinuityTest"
 
-        // Publish messages to establish a sequence number on the topic
-        repeat(3) {
-            val response = topicClient.publish(cacheName, topicName, "setup-message")
-            assert(response is TopicPublishResponse.Success)
-        }
-
         // Subscribe with a sequence number far in the future to force a discontinuity
+        val args = InstrumentationRegistry.getArguments()
         val internalClient = InternalTopicClient(
-            credentialProvider,
+            CredentialProvider.fromApiKeyV2(
+                args.getString("MomentoApiKey")!!,
+                args.getString("MomentoEndpoint")!!
+            ),
             TopicConfigurations.Laptop.latest
         )
 
