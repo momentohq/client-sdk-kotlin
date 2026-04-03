@@ -17,11 +17,13 @@ import org.junit.Test
 import software.momento.kotlin.sdk.auth.CredentialProvider
 import software.momento.kotlin.sdk.config.TopicConfigurations
 import software.momento.kotlin.sdk.exceptions.InvalidArgumentException
+import software.momento.kotlin.sdk.internal.InternalTopicClient
 import software.momento.kotlin.sdk.responses.topic.TopicMessage
 import software.momento.kotlin.sdk.responses.topic.TopicPublishResponse
 import software.momento.kotlin.sdk.responses.topic.TopicSubscribeResponse
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.test.assertContentEquals
+import kotlin.test.assertIs
 import kotlin.test.assertNotNull
 
 class TopicClientTest : BaseJvmTestClass() {
@@ -183,5 +185,40 @@ class TopicClientTest : BaseJvmTestClass() {
         mergedFlow.collect()
 
         assert(receivedCount.get() == messagesToPublish) { "Expected $messagesToPublish messages, got $receivedCount" }
+    }
+
+    @Test(timeout = 20_000)
+    fun subscribeWithHighSequenceNumberReceivesDiscontinuity() = runBlocking {
+        val topicName = "discontinuityTest"
+
+        // Publish messages to establish a sequence number on the topic
+        repeat(3) {
+            val response = topicClient.publish(cacheName, topicName, "setup-message")
+            assert(response is TopicPublishResponse.Success)
+        }
+
+        // Subscribe with a sequence number far in the future to force a discontinuity
+        val internalClient = InternalTopicClient(
+            CredentialProvider.fromEnvVar("V1_API_KEY"),
+            TopicConfigurations.Laptop.latest
+        )
+
+        val subscription = internalClient.subscribe(
+            cacheName, topicName, resumeAtTopicSequenceNumber = 1234
+        )
+        assertIs<TopicSubscribeResponse.Subscription>(subscription)
+
+        // Publish a message after a short delay so the flow doesn't block indefinitely
+        launch {
+            delay(1000)
+            topicClient.publish(cacheName, topicName, "after-discontinuity")
+        }
+
+        val messages = subscription.take(2).toCollection(mutableListOf())
+
+        assertIs<TopicMessage.Discontinuity>(messages[0])
+        assertIs<TopicMessage.Text>(messages[1])
+
+        internalClient.close()
     }
 }

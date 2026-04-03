@@ -44,6 +44,19 @@ public sealed interface TopicMessage {
     }
 
     /**
+     * A discontinuity in the topic stream, indicating that some messages may have been missed.
+     *
+     * @param lastTopicSequence The last sequence number before the gap.
+     * @param newTopicSequence The sequence number of the next message after the gap.
+     * @param newSequencePage The sequence page after the gap.
+     */
+    public data class Discontinuity(
+        val lastTopicSequence: Long,
+        val newTopicSequence: Long,
+        val newSequencePage: Long
+    ) : TopicMessage
+
+    /**
      * An error encountered while subscribed to a topic. The message itself is an exception, so it can be directly
      * thrown, or the cause of the error can be retrieved.
      */
