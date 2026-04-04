@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.5.0](https://github.com/momentohq/client-sdk-kotlin/compare/v0.4.0...v0.5.0) (2026-04-03)
+
+
+### Features
+
+* add discontinuities subscription item ([#86](https://github.com/momentohq/client-sdk-kotlin/issues/86)) ([437bc9a](https://github.com/momentohq/client-sdk-kotlin/commit/437bc9af6fd8a10375f545b523d4777bc2a5c388))
+
+
+### Miscellaneous
+
+* **main:** release 0.4.1-SNAPSHOT ([#88](https://github.com/momentohq/client-sdk-kotlin/issues/88)) ([0acad3a](https://github.com/momentohq/client-sdk-kotlin/commit/0acad3a99fe6a3996385ffb22acf04e68bdaf7ce))
+* more readme and example updates ([4b68d80](https://github.com/momentohq/client-sdk-kotlin/commit/4b68d8042f3b45a6251e9d969593b29ba89fba13))
+* release 0.5.0 ([#87](https://github.com/momentohq/client-sdk-kotlin/issues/87)) ([f78606a](https://github.com/momentohq/client-sdk-kotlin/commit/f78606adb3960b2bb1323b1595bb78543a41da84))
+* update tests, examples, readmes, CI for api keys v2 ([291b25d](https://github.com/momentohq/client-sdk-kotlin/commit/291b25df7f810913bea2ca5cc70707ff2bc5304f))
+
 ## [0.4.0](https://github.com/momentohq/client-sdk-kotlin/compare/v0.3.0...v0.4.0) (2025-12-18)
 
 
