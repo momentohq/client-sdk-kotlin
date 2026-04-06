@@ -33,7 +33,7 @@ jobs:
         id: release
         with:
           token: ${{ secrets.MOMENTO_MACHINE_USER_GITHUB_TOKEN }}
-          release-type: java
+          release-type: simple
           package-name: client-sdk-kotlin
           changelog-types: '[{"type":"feat","section":"Features","hidden":false},{"type":"fix","section":"Bug Fixes","hidden":false},{"type":"chore","section":"Miscellaneous","hidden":false}]'
           extra-files: |
@@ -70,7 +70,6 @@ jobs:
           SONATYPE_SIGNING_KEY_PASSWORD: ${{ secrets.SONATYPE_SIGNING_KEY_PASSWORD }}
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
-          ORG_GRADLE_PROJECT_version: ${{ steps.semrel.outputs.version }}
         uses: gradle/gradle-build-action@v2.11.1
         with:
           arguments: publishToSonatype closeAndReleaseStagingRepository
