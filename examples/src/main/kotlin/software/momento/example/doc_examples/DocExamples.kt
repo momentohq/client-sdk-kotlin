@@ -185,6 +185,9 @@ suspend fun example_API_TopicSubscribe(topicClient: TopicClient) {
                         when (item) {
                             is TopicMessage.Text -> println("Received text message: ${item.value}")
                             is TopicMessage.Binary -> println("Received binary message: ${item.value}")
+                            is TopicMessage.Discontinuity -> println(
+                                "Received discontinuity message: last sequence number ${item.lastTopicSequence}, new sequence number ${item.newTopicSequence}, new sequence page ${item.newSequencePage}"
+                            )
                             is TopicMessage.Error -> throw RuntimeException(
                                 "An error occurred reading messages from topic 'test-topic': ${item.errorCode}", item
                             )
