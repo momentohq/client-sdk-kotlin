@@ -27,7 +27,7 @@ The Kotlin SDK is available on Maven Central:
 
 ```kotlin
 dependencies {
-    implementation("software.momento.kotlin:sdk:0.4.0")
+    implementation("software.momento.kotlin:sdk:0.5.1")
 }
 ```
 
@@ -37,7 +37,7 @@ dependencies {
 <dependency>
     <groupId>software.momento.kotlin</groupId>
     <artifactId>sdk</artifactId>
-    <version>0.4.0</version>
+    <version>0.5.1</version>
 </dependency>
 ```
 
