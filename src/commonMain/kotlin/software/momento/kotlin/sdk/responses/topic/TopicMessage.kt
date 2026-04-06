@@ -46,9 +46,9 @@ public sealed interface TopicMessage {
     /**
      * A discontinuity in the topic stream, indicating that some messages may have been missed.
      *
-     * @param lastTopicSequence The last sequence number before the gap.
-     * @param newTopicSequence The sequence number of the next message after the gap.
-     * @param newSequencePage The sequence page after the gap.
+     * @param lastTopicSequence The last topic value sequence number known to have been attempted (if known, 0 otherwise).
+     * @param newTopicSequence The new topic sequence number.
+     * @param newSequencePage The new topic sequence_page. If you had one before and this one is different, then your topic reset. If you didn't have one, then this is just telling you what the sequence page is expected to be. If you had one before, and this one is the same, then it's just telling you that you missed some messages in the topic.
      */
     public data class Discontinuity(
         val lastTopicSequence: Long,
