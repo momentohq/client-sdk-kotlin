@@ -10,7 +10,7 @@ repositories {
 }
 
 dependencies {
-    implementation("software.momento.kotlin:sdk:0.4.0")
+    implementation("software.momento.kotlin:sdk:0.5.1")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
 }
 
@@ -40,4 +40,10 @@ tasks.register<JavaExec>("cheatSheetExample") {
     description = "Run the cheat sheet example"
     classpath = sourceSets["main"].runtimeClasspath
     mainClass = "software.momento.example.doc_examples.CheatSheetKt"
+}
+
+tasks.register<JavaExec>("topics") {
+    description = "Run the topics example"
+    classpath = sourceSets["main"].runtimeClasspath
+    mainClass = "software.momento.example.TopicsExampleKt"
 }
