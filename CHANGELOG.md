@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.5.1](https://github.com/momentohq/client-sdk-kotlin/compare/v0.5.0...v0.5.1) (2026-04-06)
+
+
+### Miscellaneous
+
+* **main:** release 0.5.1-SNAPSHOT ([#93](https://github.com/momentohq/client-sdk-kotlin/issues/93)) ([027a146](https://github.com/momentohq/client-sdk-kotlin/commit/027a14680cfe73fc86959d295812472a1040bf58))
+* minor docs update ([#92](https://github.com/momentohq/client-sdk-kotlin/issues/92)) ([ffadcfd](https://github.com/momentohq/client-sdk-kotlin/commit/ffadcfde33df19d43ffcef5439d1744b22a73316))
+
 ## [0.5.0](https://github.com/momentohq/client-sdk-kotlin/compare/v0.4.0...v0.5.0) (2026-04-03)
 
 
