@@ -52,9 +52,16 @@ internal class TopicGrpcStubsManager(credentialProvider: CredentialProvider) : C
     companion object {
         private val DEADLINE = 1.minutes
         private fun setupConnection(credentialProvider: CredentialProvider): ManagedChannel {
-            val channelBuilder = ManagedChannelBuilder.forAddress(credentialProvider.cacheEndpoint, 443)
-            channelBuilder.useTransportSecurity()
+            val channelBuilder = ManagedChannelBuilder.forAddress(credentialProvider.cacheEndpoint, credentialProvider.getPort())
+            val isSecure = credentialProvider.isSecure
             channelBuilder.disableRetry()
+
+            if (isSecure == true) {
+                channelBuilder.useTransportSecurity()
+            } else {
+                channelBuilder.usePlaintext()
+            }
+
             channelBuilder.disableServiceConfigLookUp();
             channelBuilder.keepAliveTime(10, TimeUnit.SECONDS)
             channelBuilder.keepAliveTimeout(5, TimeUnit.SECONDS)

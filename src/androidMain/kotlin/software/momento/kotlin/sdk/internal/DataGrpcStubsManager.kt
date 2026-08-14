@@ -45,9 +45,16 @@ internal class DataGrpcStubsManager(credentialProvider: CredentialProvider, conf
     companion object {
         private val DEADLINE = 1.minutes
         private fun setupConnection(credentialProvider: CredentialProvider): ManagedChannel {
-            val channelBuilder = ManagedChannelBuilder.forAddress(credentialProvider.cacheEndpoint, 443)
-            channelBuilder.useTransportSecurity()
+            val channelBuilder = ManagedChannelBuilder.forAddress(credentialProvider.cacheEndpoint, credentialProvider.getPort())
+            val isSecure = credentialProvider.isSecure
             channelBuilder.disableRetry()
+
+            if (isSecure == true) {
+                channelBuilder.useTransportSecurity()
+            } else {
+                channelBuilder.usePlaintext()
+            }
+
             val clientInterceptors: MutableList<ClientInterceptor> = ArrayList()
             clientInterceptors.add(UserHeaderInterceptor(credentialProvider.apiKey, "cache"))
             channelBuilder.intercept(clientInterceptors)
