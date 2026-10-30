@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.6.0](https://github.com/momentohq/client-sdk-kotlin/compare/v0.5.1...v0.6.0) (2026-10-30)
+
+
+### Features
+
+* expose cache id on CacheInfo ([#100](https://github.com/momentohq/client-sdk-kotlin/issues/100)) ([d825a00](https://github.com/momentohq/client-sdk-kotlin/commit/d825a002bfe317cf3d0f836ad14afc9970b1c16f))
+
+
+### Miscellaneous
+
+* retire the machine-user release token ([#99](https://github.com/momentohq/client-sdk-kotlin/issues/99)) ([174cfa3](https://github.com/momentohq/client-sdk-kotlin/commit/174cfa38935fb5bc106369aee09c15c956439c98))
+* update examples dep, add topics example ([#97](https://github.com/momentohq/client-sdk-kotlin/issues/97)) ([e1b5216](https://github.com/momentohq/client-sdk-kotlin/commit/e1b52160b85afaae83a07f08d3bf3344286f6ded))
+
 ## [0.5.1](https://github.com/momentohq/client-sdk-kotlin/compare/v0.5.0...v0.5.1) (2026-04-06)
 
 
