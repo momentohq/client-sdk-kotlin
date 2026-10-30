@@ -76,7 +76,7 @@ internal actual class InternalControlClient actual constructor(
             this.stubsManager.stub.listCaches(request, metadata)
         }.fold(onSuccess = { listCacheResponse ->
             CacheListResponse.Success(
-                listCacheResponse.cacheList.map { CacheInfo(it.cacheName) }
+                listCacheResponse.cacheList.map { CacheInfo(it.cacheName, it.cacheId) }
             )
         }, onFailure = { e ->
             CacheListResponse.Error(CacheServiceExceptionMapper.convert(e, metadata))
